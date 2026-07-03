@@ -12,6 +12,8 @@ class TestRegisterForm(TestCase):
 
 	TestCases Methods:
 		test_valid_data;
+		test_empty_data;
+		test_unmatched_passwords;
 	"""
 
 	def test_valid_data(self):
@@ -61,3 +63,4 @@ class TestRegisterForm(TestCase):
 
 		self.assertEqual(len(form.errors), 1)
 		self.assertTrue(form.has_error)
+
