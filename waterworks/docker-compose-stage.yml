@@ -3,7 +3,7 @@ services:
     env_file:
       - .env
 
-    container_name: centralsu-postgres
+    container_name: waterworks-postgres
     image: postgres:14
 
     environment:
@@ -12,7 +12,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
 
     volumes:
-      - centralsu_postgres_data:/var/lib/postgresql/data/
+      - waterworks_postgres_data:/var/lib/postgresql/data/
     networks:
       - main
 
@@ -29,8 +29,8 @@ services:
       - .env
 
     build: .
-    image: centralsu/app:1.0
-    container_name: centralsu-app
+    image: waterworks/app:1.0
+    container_name: waterworks-app
 
     command: >
       sh -c "
@@ -59,7 +59,7 @@ services:
     restart: always
 
   nginx:
-    container_name: centralsu-nginx
+    container_name: waterworks-nginx
     image: nginx:1.28.2
 
     ports:
@@ -78,11 +78,10 @@ services:
 
     restart: always
 
-
 networks:
   main:
 
 volumes:
-  centralsu_postgres_data:
+  waterworks_postgres_data:
   static_volume:
   media_volume:

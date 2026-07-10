@@ -117,3 +117,6 @@ AUTH_USER_MODEL = "accounts.User"
 
 # Jalali date configs
 from .conf import JALALI_DATE_DEFAULTS
+
+# Logging configuration
+from .conf import LOGGING

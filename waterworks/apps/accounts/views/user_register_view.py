@@ -1,3 +1,6 @@
+import logging
+from colorama import Fore, Style, init
+
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib import messages
@@ -5,6 +8,11 @@ from django.utils.translation import gettext_lazy as _
 
 from apps.accounts.forms import UserRegisterForm
 from apps.accounts.models import User
+
+
+# Configure logging for the accounts views module
+logger = logging.getLogger(__name__)
+init(autoreset=True)
 
 
 class UserRegisterView(View):
@@ -47,13 +55,21 @@ class UserRegisterView(View):
                 password=data.get("password")
             )
             user.save()
+
             messages.success(
                 request=request,
                 message=_("Your account registration was successfully done."),
                 extra_tags="success"
             )
+            logger.info(
+                f'New user registered successfully: {Fore.LIGHTGREEN_EX}{data.get("phone_number")}{Style.RESET_ALL}'
+            )
+
             return redirect("accounts:user-login")
         else:
+            logger.error(
+                f'Failed user registration attempt: {Fore.LIGHTRED_EX}{data.get("phone_number")}{Style.RESET_ALL}'
+            )
             form.errors
 
         context = {"form": form}

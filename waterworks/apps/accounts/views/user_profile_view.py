@@ -1,3 +1,6 @@
+import logging
+from colorama import Fore, Style, init
+
 from django.shortcuts import redirect, render
 from django.views import View
 from django.contrib import messages
@@ -5,6 +8,11 @@ from django.utils.translation import gettext_lazy as _
 from django.urls import reverse_lazy
 
 from apps.accounts.forms import UserUpdateForm, UserProfileUpdateForm
+
+
+# Configure logging for the accounts views module
+logger = logging.getLogger(__name__)
+init(autoreset=True)
 
 
 class UserProfileUpdateView(View):
@@ -65,13 +73,21 @@ class UserProfileUpdateView(View):
                 message=_("پروفایل شما با موفقیت بروزرسانی شد."),
                 extra_tags="success"
             )
+            logger.info(
+                f'User profile updated successfully: {Fore.LIGHTGREEN_EX}{user.username}{Style.RESET_ALL}'
+            )
+            
             return redirect(reverse_lazy("accounts:user-dashboard"))
         else:
+            logger.error(
+                f'Failed to update user profile: {Fore.LIGHTRED_EX}{user.username}{Style.RESET_ALL}'
+            )
             messages.error(
                 request=request,
                 message=_("لطفا خطا زیر را بررسی و تصحیح کنید."),
                 extra_tags="danger"
             )
+
         return render(
             request=request,
             template_name=self.template_name,
