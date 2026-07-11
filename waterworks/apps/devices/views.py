@@ -1,3 +1,6 @@
+import logging
+from colorama import Fore, Style, init
+
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
@@ -14,6 +17,11 @@ from django.utils.translation import gettext_lazy as _
 from .forms import DeviceCreateForm, DeviceUpdateForm
 from .models import Device
 from .services import update_device
+
+
+# Configure logging for the accounts views module
+logger = logging.getLogger(__name__)
+init(autoreset=True)
 
 
 class DeviceCreateView(LoginRequiredMixin, FormView):
@@ -40,12 +48,18 @@ class DeviceCreateView(LoginRequiredMixin, FormView):
 		    user.is_superuser
 		    or user.role == "Admin"
 		)
+		logger.debug(
+			f"{Fore.GREEN}Dispatching request for user: {user.username}, Role: {user.role}{Style.RESET_ALL}"
+		)
 
 		# Redirects user only if user is neither
 		# a superuser nor has an authorized role
 		if not is_allowed:
+			logger.warning(
+				f"{Fore.RED}Unauthorized access attempt by user: {user.username}, Role: {user.role}{Style.RESET_ALL}"
+			)
 			return redirect('devices:devices-list')
-		
+
 		return super().dispatch(request, *args, **kwargs)
 
 	def form_valid(self, form):
@@ -61,6 +75,10 @@ class DeviceCreateView(LoginRequiredMixin, FormView):
 			message=_(f"دستگاه با موفقیت ثبت شد."),
 			extra_tags="success"
 		)
+		logger.debug(
+			f"{Fore.GREEN}Device created successfully by user: {self.request.user.username}{Style.RESET_ALL}"
+		)
+
 		return redirect("devices:devices-list")
 
 
@@ -105,10 +123,16 @@ class DeviceUpdateView(UpdateView):
 		    user.is_superuser
 		    or user.role == "Admin"
 		)
+		logger.debug(
+			f"{Fore.GREEN}Dispatching request for user: {user.username}, Role: {user.role}{Style.RESET_ALL}"
+		)
 
 		# Redirects user only if user is neither
 		# a superuser nor has an authorized role
 		if not is_allowed:
+			logger.warning(
+				f"{Fore.RED}Unauthorized access attempt by user: {user.username}, Role: {user.role}{Style.RESET_ALL}"
+			)
 			return redirect('devices:devices-list')
 		
 		return super().dispatch(request, *args, **kwargs)
@@ -124,6 +148,9 @@ class DeviceUpdateView(UpdateView):
 		self.object = update_device(
 			device=self.get_object(),
 			data=form.cleaned_data,
+		)
+		logger.debug(
+			f"{Fore.GREEN}Device updated successfully by user: {self.request.user.username}{Style.RESET_ALL}"
 		)
 
 		return HttpResponseRedirect(self.get_success_url())

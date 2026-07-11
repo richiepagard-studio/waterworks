@@ -100,5 +100,10 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': False
         },
+        'apps.devices.views': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': False
+        },
     }
 }
