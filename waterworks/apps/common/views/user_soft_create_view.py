@@ -1,3 +1,6 @@
+import logging
+from colorama import Fore, Style, init
+
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
@@ -12,6 +15,10 @@ from apps.accounts.models import UserProfile
 from apps.accounts.service import register_or_continue_user
 
 
+# Configure logging for the accounts views module
+logger = logging.getLogger(__name__)
+init(autoreset=True)
+# User model retrieval
 User = get_user_model()
 
 
@@ -45,10 +52,17 @@ class BaseUserSoftRegisterView(LoginRequiredMixin, View):
             user.is_superuser
             or user.role in self.authorized_roles
         )
+        logger.debug(
+            f"{Fore.GREEN}Dispatching request for user: {user.username}, "
+            f"Role: {user.role}, Is allowed: {is_allowed}{Style.RESET_ALL}"
+        )
 
         # Redirects user only if user is neither
         # a superuser nor has an authorized role
         if not is_allowed:
+            logger.warning(
+                f"{Fore.YELLOW}User {user.username} is not allowed to create a new user.{Style.RESET_ALL}"
+            )
             return redirect("home:main-home")
 
         return super().dispatch(*args, **kwargs)
@@ -61,6 +75,9 @@ class BaseUserSoftRegisterView(LoginRequiredMixin, View):
         Args:
             form (object): The User Soft Register Form that will be valid in case.
         """
+        logger.info(
+            f"{Fore.GREEN}Form is valid for user: {self.request.user.username}{Style.RESET_ALL}"
+        )
         messages.success(
             request=self.request,
             message=_(f"کاربر با نقش {self.user_role} با موفقیت ساخته شد."),
@@ -112,6 +129,10 @@ class BaseUserSoftRegisterView(LoginRequiredMixin, View):
                 role=self.user_role
             )
             user = result['user']
+
+            logger.debug(
+                f"{Fore.BLUE}User registration result: {result}{Style.RESET_ALL}"
+            )
 
             if result['action'] == 'already_exists':
                 messages.error(
@@ -192,6 +213,9 @@ class BaseUserProfileSoftUpdateView(LoginRequiredMixin, View):
         # Redirects user only if user is neither
         # a superuser nor has an authorized role
         if not is_allowed:
+            logger.warning(
+                f"{Fore.YELLOW}User {user.username} is not allowed to update a user profile.{Style.RESET_ALL}"
+            )
             return redirect("home:main-home")
 
         return super().dispatch(*args, **kwargs)
@@ -204,6 +228,9 @@ class BaseUserProfileSoftUpdateView(LoginRequiredMixin, View):
         Args:
             form (object): The User Soft Register Form that will be valid in case.
         """
+        logger.info(
+            f"{Fore.GREEN}Form is valid for user: {self.request.user.username}{Style.RESET_ALL}"
+        )
         messages.success(
             request=self.request,
             message=_(f"پروفایل کاربر با موفقیت ساخته شد."),
@@ -256,11 +283,20 @@ class BaseUserProfileSoftUpdateView(LoginRequiredMixin, View):
             first_name = form.cleaned_data.get("first_name")
             last_name = form.cleaned_data.get("last_name")
             address = form.cleaned_data.get("address")
+            logger.debug(
+                f"{Fore.BLUE}Updating user profile for user: {user}, "
+                f"First Name: {first_name}, Last Name: {last_name}, Address: {address}{Style.RESET_ALL}"
+            )
+
             # Updating the user's profile fields
             profile.first_name = first_name or None
             profile.last_name = last_name or None
             profile.address = address or None
             profile.save()
+
+            logger.info(
+                f"{Fore.GREEN}User profile updated for user: {user}{Style.RESET_ALL}"
+            )
 
             self.form_valid(form=form)
             return redirect(self.success_url)

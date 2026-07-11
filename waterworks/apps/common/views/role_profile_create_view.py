@@ -1,3 +1,6 @@
+import logging
+from colorama import Fore, Style, init
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -7,6 +10,10 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
 
 
+# Configure logging for the accounts views module
+logger = logging.getLogger(__name__)
+init(autoreset=True)
+# User model retrieval
 User = get_user_model()
 
 
@@ -36,8 +43,15 @@ class BaseRoleProfileCreateView(LoginRequiredMixin, View):
             user.is_superuser
             or user.role in self.authorized_roles
         )
+        logger.debug(
+            f"{Fore.GREEN}Dispatching request for user: {user.username}, "
+            f"Role: {user.role}, Is allowed: {is_allowed}{Style.RESET_ALL}"
+        )
 
         if not is_allowed:
+            logger.warning(
+                f"{Fore.YELLOW}User {user.username} is not allowed to create a user profile.{Style.RESET_ALL}"
+            )
             return redirect("home:main-home")
 
         return super().dispatch(*args, **kwargs)
@@ -69,11 +83,15 @@ class BaseRoleProfileCreateView(LoginRequiredMixin, View):
         # Check if there's not any user with the user-id
         # render an error message and redirect user to the dashboard
         if not user_id:
+            logger.debug(
+                f"{Fore.RED}No user found in session for {self.user_role} creation.{Style.RESET_ALL}"
+            )
             messages.error(
                 request=request,
                 message=_(f"No user found for {self.user_role} creation. کاربری برای ثبت با نقش {self.user_role} پیدا نشد."),
                 extra_tags="danger"
             )
+
             return redirect("home:main-home")
 
         # Get the created user object
@@ -89,16 +107,30 @@ class BaseRoleProfileCreateView(LoginRequiredMixin, View):
             role.save()
             user.save()
 
+            logger.debug(
+                f"{Fore.GREEN}Role profile created for user: {user.username}, Role: {self.user_role}{Style.RESET_ALL}"
+            )
+
             # Clean the sessions
             del request.session["user_role_registered_id"]
+            logger.debug(
+                f"{Fore.BLUE}Session 'user_role_registered_id' cleared after {self.user_role} creation.{Style.RESET_ALL}"
+            )
 
             messages.success(
                 request=request,
                 message=_(f"{self.user_role} با موفقیت ساخته شد."),
                 extra_tags="success"
             )
+            logger.debug(
+                f"{Fore.GREEN}Redirecting to success URL after {self.user_role} creation.{Style.RESET_ALL}"
+            )
+
             return redirect(self.success_url)
         else:
+            logger.debug(
+                f"{Fore.RED}Form is invalid for {self.user_role} creation. Errors: {form.errors}{Style.RESET_ALL}"
+            )
             messages.error(
                 request=request,
                 message=_("مقادیر ارسالی مشکل دارد!"),
@@ -137,12 +169,19 @@ class BaseRoleProfileUpdateView(LoginRequiredMixin, View):
         has the Admin role or is a superuser.
         """
         user = self.request.user
+        logger.debug(
+            f"{Fore.GREEN}Dispatching request for user: {user.username}, "
+            f"Role: {user.role}{Style.RESET_ALL}"
+        )
         is_allowed = (
             user.is_superuser
             or user.role == 'Admin'
         )
 
         if not is_allowed:
+            logger.debug(
+                f"{Fore.YELLOW}User {user.username} is not allowed to update a role profile.{Style.RESET_ALL}"
+            )
             return redirect("home:main-home")
 
         return super().dispatch(*args, **kwargs)
@@ -192,8 +231,15 @@ class BaseRoleProfileUpdateView(LoginRequiredMixin, View):
                 message=_(f"پروفایل {self.role} با موفقیت بروزرسانی شد."),
                 extra_tags="success"
             )
+            logger.debug(
+                f"{Fore.GREEN}Redirecting to success URL after {self.role} update.{Style.RESET_ALL}"
+            )
+            
             return redirect(self.success_url)
         else:
+            logger.debug(
+                f"{Fore.RED}Form is invalid for {self.role} update. Errors: {form.errors}{Style.RESET_ALL}"
+            )
             messages.error(
                 request=request,
                 message=_("لطفا خطا زیر را بررسی و رفع کنید."),
