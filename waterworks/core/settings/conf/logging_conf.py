@@ -88,7 +88,14 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': False
         },
+
+        # Local apps
         'apps.accounts.views': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': False
+        },
+        'apps.common.views': {
             'handlers': ['console', 'file'],
             'level': 'DEBUG',
             'propagate': False
