@@ -71,7 +71,7 @@ div.technician-status-checkbox {
     width: 50%;
     border-radius: 4px;
     margin-top: 30px;
-    font-family: 'HastiR';
+    font-family: var(--font-family-base);
     color: var(--color-text-muted);
 }
 
