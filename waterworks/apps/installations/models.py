@@ -166,7 +166,7 @@ class Installation(BaseModel):
         """
         length = 6
         generated_string = get_random_string(length)
-        self.Installation_code = generated_string
+        self.installation_code = generated_string
 
     def save_replacement_dates(self) -> None:
         """
