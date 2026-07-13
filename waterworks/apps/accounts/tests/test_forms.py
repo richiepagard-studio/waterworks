@@ -1,6 +1,5 @@
 from django.test import TestCase
 
-from apps.accounts.models import User
 from apps.accounts.forms import UserRegisterForm
 
 
@@ -63,4 +62,3 @@ class TestRegisterForm(TestCase):
 
 		self.assertEqual(len(form.errors), 1)
 		self.assertTrue(form.has_error)
-

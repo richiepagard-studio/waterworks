@@ -15,6 +15,7 @@
 
             <form class="profile-edit-form" method="post">
                 {% csrf_token %}
+                <input type="hidden" name="next" value="{{ next_url|default:'' }}">
                 
                 <!-- Avatar Upload Section -->
                 <div class="profile-edit-avatar-section">
@@ -37,7 +38,7 @@
                         {% if field.name == 'address' %}
                             <div class="edit-field full-width">
                                 <label>{{ field.label }}</label>
-                                <textarea rows="3" placeholder="آدرس کامل خود را وارد کنید" name="address"></textarea>
+                                {{ field }}
                             </div>
                         {% else %}
                             <div class="edit-field">

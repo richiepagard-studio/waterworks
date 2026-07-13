@@ -18,7 +18,11 @@ AUTHENTICATION_URLS = [
     path('logout/', UserLogoutView.as_view(), name='user-logout'),
 ]
 USER_PROFILE_URLS = [
-    path('profile/update/', UserProfileUpdateView.as_view(), name='user-profile-update'),
+    path(
+        'profile/update/<int:user_id>/',
+        UserProfileUpdateView.as_view(),
+        name='user-profile-update'
+    ),
     path('dashboard/', UserDashboardView.as_view(), name='user-dashboard')
 ]
 

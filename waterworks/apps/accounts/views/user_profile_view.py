@@ -1,11 +1,13 @@
 import logging
 from colorama import Fore, Style, init
 
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.views import View
 from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse_lazy
+from django.contrib.auth import get_user_model
+from django.utils.http import url_has_allowed_host_and_scheme
 
 from apps.accounts.forms import UserUpdateForm, UserProfileUpdateForm
 
@@ -13,6 +15,8 @@ from apps.accounts.forms import UserUpdateForm, UserProfileUpdateForm
 # Configure logging for the accounts views module
 logger = logging.getLogger(__name__)
 init(autoreset=True)
+
+User = get_user_model()
 
 
 class UserProfileUpdateView(View):
@@ -31,36 +35,85 @@ class UserProfileUpdateView(View):
     }
     template_name = "accounts/user_profile.html"
 
-    def get(self, request):
+    def dispatch(self, request, *args, **kwargs):
+        """
+        Override the dispatch method to check if the user is authenticated.
+        If not, redirect to the login page.
+        If the user is not an admin or does not match the user_id in the URL,
+        redirect to the user dashboard.
+        """
+        if not request.user.is_authenticated:
+            messages.error(
+                request=request,
+                message=_("شما باید وارد حساب کاربری خود شوید."),
+                extra_tags="danger"
+            )
+            return redirect(reverse_lazy("accounts:user-login"))
+
+        elif request.user.role != 'Admin' or request.user.id != kwargs.get('user_id'):
+            messages.error(
+                request=request,
+                message=_("شما اجازه دسترسی به این صفحه را ندارید."),
+                extra_tags="danger"
+            )
+            return redirect(reverse_lazy("accounts:user-dashboard"))
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def _get_redirect_url(self, request) -> str:
+        """
+        Return a safe redirect target from the request or fall back to the dashboard.
+        """
+        redirect_to = (
+            request.POST.get("next") or
+            request.GET.get("next") or
+            request.META.get("HTTP_REFERER")
+        )
+
+        if redirect_to and url_has_allowed_host_and_scheme(
+            redirect_to,
+            allowed_hosts={request.get_host()}
+        ):
+            return redirect_to
+
+        return reverse_lazy("accounts:user-dashboard")
+
+    def get(self, request, user_id=int) -> render:
         """
         Get the template and display it simply.
+
+        Arguments:
+            request: The HTTP request object.
+            user_id: The ID of the user whose profile is being updated.
         """
-        user = request.user
+        user = get_object_or_404(User, id=user_id)
         userprofile = user.userprofile
-        forms = {
+        context = {
             "user_form": self.form_classes["user_form"](instance=user),
-            "profile_form": self.form_classes["profile_form"](instance=userprofile)
+            "profile_form": self.form_classes["profile_form"](instance=userprofile),
+            "next_url": self._get_redirect_url(request),
         }
 
         return render(
             request=request,
             template_name=self.template_name,
-            context=forms
+            context=context
         )
 
-    def post(self, request):
+    def post(self, request, user_id=int) -> render:
         """
         Validates forms by checking if the sent data
         from the client. If the data validated successfully,
         save the data as updating data for instances (user and userprofile).
         """
-        user = request.user
+        user = get_object_or_404(User, id=user_id)
         userprofile = user.userprofile
         POST = request.POST
         forms = {
             "user_form": self.form_classes["user_form"](POST, instance=user),
             "profile_form": self.form_classes["profile_form"](POST, instance=userprofile)
         }
+        redirect_url = self._get_redirect_url(request)
 
         # Check the validation of forms and
         # save them if they will validated properly
@@ -76,8 +129,8 @@ class UserProfileUpdateView(View):
             logger.info(
                 f'User profile updated successfully: {Fore.LIGHTGREEN_EX}{user.username}{Style.RESET_ALL}'
             )
-            
-            return redirect(reverse_lazy("accounts:user-dashboard"))
+
+            return redirect(redirect_url)
         else:
             logger.error(
                 f'Failed to update user profile: {Fore.LIGHTRED_EX}{user.username}{Style.RESET_ALL}'
@@ -88,8 +141,13 @@ class UserProfileUpdateView(View):
                 extra_tags="danger"
             )
 
+        context = {
+            **forms,
+            "next_url": redirect_url,
+        }
+
         return render(
             request=request,
             template_name=self.template_name,
-            context=forms
+            context=context
         )
