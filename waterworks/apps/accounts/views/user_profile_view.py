@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model
+from django.utils.http import url_has_allowed_host_and_scheme
 
 from apps.accounts.forms import UserUpdateForm, UserProfileUpdateForm
 
@@ -34,6 +35,24 @@ class UserProfileUpdateView(View):
     }
     template_name = "accounts/user_profile.html"
 
+    def _get_redirect_url(self, request) -> str:
+        """
+        Return a safe redirect target from the request or fall back to the dashboard.
+        """
+        redirect_to = (
+            request.POST.get("next") or
+            request.GET.get("next") or
+            request.META.get("HTTP_REFERER")
+        )
+
+        if redirect_to and url_has_allowed_host_and_scheme(
+            redirect_to,
+            allowed_hosts={request.get_host()}
+        ):
+            return redirect_to
+
+        return reverse_lazy("accounts:user-dashboard")
+
     def get(self, request, user_id=int) -> render:
         """
         Get the template and display it simply.
@@ -44,15 +63,16 @@ class UserProfileUpdateView(View):
         """
         user = get_object_or_404(User, id=user_id)
         userprofile = user.userprofile
-        forms = {
+        context = {
             "user_form": self.form_classes["user_form"](instance=user),
-            "profile_form": self.form_classes["profile_form"](instance=userprofile)
+            "profile_form": self.form_classes["profile_form"](instance=userprofile),
+            "next_url": self._get_redirect_url(request),
         }
 
         return render(
             request=request,
             template_name=self.template_name,
-            context=forms
+            context=context
         )
 
     def post(self, request, user_id=int) -> render:
@@ -68,6 +88,7 @@ class UserProfileUpdateView(View):
             "user_form": self.form_classes["user_form"](POST, instance=user),
             "profile_form": self.form_classes["profile_form"](POST, instance=userprofile)
         }
+        redirect_url = self._get_redirect_url(request)
 
         # Check the validation of forms and
         # save them if they will validated properly
@@ -83,8 +104,8 @@ class UserProfileUpdateView(View):
             logger.info(
                 f'User profile updated successfully: {Fore.LIGHTGREEN_EX}{user.username}{Style.RESET_ALL}'
             )
-            
-            return redirect(reverse_lazy("accounts:user-dashboard"))
+
+            return redirect(redirect_url)
         else:
             logger.error(
                 f'Failed to update user profile: {Fore.LIGHTRED_EX}{user.username}{Style.RESET_ALL}'
@@ -95,8 +116,13 @@ class UserProfileUpdateView(View):
                 extra_tags="danger"
             )
 
+        context = {
+            **forms,
+            "next_url": redirect_url,
+        }
+
         return render(
             request=request,
             template_name=self.template_name,
-            context=forms
+            context=context
         )
