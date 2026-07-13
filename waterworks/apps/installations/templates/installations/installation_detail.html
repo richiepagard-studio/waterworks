@@ -21,19 +21,19 @@
 
     <!-- Replacement Cards -->
     <div class="filters-grid">
-        <div class="filter-card active-filter">
+        <div class="filter-card {% if object.first_replacement_status %}active-filter{% else %}empty-filter{% endif %}">
             <span class="filter-title">تاریخ تعویض فیلتر اول</span>
             <span class="filter-date">{{ object.first_replacement_date | to_jalali:"%d %B %Y" | to_farsi_digit }}</span>
         </div>
-        <div class="filter-card active-filter">
+        <div class="filter-card {% if object.second_replacement_status %}active-filter{% else %}empty-filter{% endif %}">
             <span class="filter-title">تاریخ تعویض فیلتر دوم</span>
             <span class="filter-date">{{ object.second_replacement_date | to_jalali:"%d %B %Y" | to_farsi_digit }}</span>
         </div>
-        <div class="filter-card empty-filter">
+        <div class="filter-card {% if object.third_replacement_status %}active-filter{% else %}empty-filter{% endif %}">
             <span class="filter-title">تاریخ تعویض فیلتر سوم</span>
             <span class="filter-date">{{ object.third_replacement_date | to_jalali:"%d %B %Y" | to_farsi_digit }}</span>
         </div>
-        <div class="filter-card empty-filter">
+        <div class="filter-card {% if object.forth_replacement_status %}active-filter{% else %}empty-filter{% endif %}">
             <span class="filter-title">تاریخ تعویض فیلتر چهارم</span>
             <span class="filter-date">{{ object.forth_replacement_date | to_jalali:"%d %B %Y" | to_farsi_digit }}</span>
         </div>
