@@ -40,7 +40,7 @@
 			</div>
 
 			<div class="user-profile-actions">
-				<a href="{% url 'accounts:user-profile-update' user.id %}" class="btn-main">ویرایش پروفایل</a>
+				<a href="{% url 'accounts:user-profile-update' user.id %}?next={{ request.get_full_path|urlencode }}" class="btn-main">ویرایش پروفایل</a>
 				<a href="{% url 'accounts:user-logout' %}" class="btn-sub logout-btn">خروج</a>
 			</div>
 

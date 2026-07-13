@@ -15,6 +15,7 @@
         <div class="installation-tabs">
             <button class="tab active"><a href="{{ object.get_absolute_url }}">جزئیات</a></button>
             <button class="tab"><a href="{% url 'installations:installation-update' object.pk %}">تنظیمات</a></button>
+            <button class="tab"><a href="{% url 'accounts:user-profile-update' object.user.id %}?next={{ request.get_full_path|urlencode }}">ویرایش مشخصات شخصی</a></button>
         </div>
     </div>
 
