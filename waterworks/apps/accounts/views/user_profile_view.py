@@ -35,6 +35,31 @@ class UserProfileUpdateView(View):
     }
     template_name = "accounts/user_profile.html"
 
+    def dispatch(self, request, *args, **kwargs):
+        """
+        Override the dispatch method to check if the user is authenticated.
+        If not, redirect to the login page.
+        If the user is not an admin or does not match the user_id in the URL,
+        redirect to the user dashboard.
+        """
+        if not request.user.is_authenticated:
+            messages.error(
+                request=request,
+                message=_("شما باید وارد حساب کاربری خود شوید."),
+                extra_tags="danger"
+            )
+            return redirect(reverse_lazy("accounts:user-login"))
+
+        elif request.user.role != 'Admin' or request.user.id != kwargs.get('user_id'):
+            messages.error(
+                request=request,
+                message=_("شما اجازه دسترسی به این صفحه را ندارید."),
+                extra_tags="danger"
+            )
+            return redirect(reverse_lazy("accounts:user-dashboard"))
+
+        return super().dispatch(request, *args, **kwargs)
+
     def _get_redirect_url(self, request) -> str:
         """
         Return a safe redirect target from the request or fall back to the dashboard.
