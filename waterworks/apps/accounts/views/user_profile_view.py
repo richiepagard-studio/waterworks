@@ -1,11 +1,12 @@
 import logging
 from colorama import Fore, Style, init
 
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.views import View
 from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse_lazy
+from django.contrib.auth import get_user_model
 
 from apps.accounts.forms import UserUpdateForm, UserProfileUpdateForm
 
@@ -13,6 +14,8 @@ from apps.accounts.forms import UserUpdateForm, UserProfileUpdateForm
 # Configure logging for the accounts views module
 logger = logging.getLogger(__name__)
 init(autoreset=True)
+
+User = get_user_model()
 
 
 class UserProfileUpdateView(View):
@@ -31,11 +34,15 @@ class UserProfileUpdateView(View):
     }
     template_name = "accounts/user_profile.html"
 
-    def get(self, request):
+    def get(self, request, user_id=int) -> render:
         """
         Get the template and display it simply.
+
+        Arguments:
+            request: The HTTP request object.
+            user_id: The ID of the user whose profile is being updated.
         """
-        user = request.user
+        user = get_object_or_404(User, id=user_id)
         userprofile = user.userprofile
         forms = {
             "user_form": self.form_classes["user_form"](instance=user),
@@ -48,13 +55,13 @@ class UserProfileUpdateView(View):
             context=forms
         )
 
-    def post(self, request):
+    def post(self, request, user_id=int) -> render:
         """
         Validates forms by checking if the sent data
         from the client. If the data validated successfully,
         save the data as updating data for instances (user and userprofile).
         """
-        user = request.user
+        user = get_object_or_404(User, id=user_id)
         userprofile = user.userprofile
         POST = request.POST
         forms = {
