@@ -13,8 +13,9 @@
     <main class="installer-profile">
         <!-- Top Action Bar -->
         <div class="profile-actions">
-            <a href="{% url 'technicians:technician-update' technician.id %}" class="btn-sub">ویرایش اطلاعات</a>
             <button class="btn-sub">جزئیات</button>
+            <a href="{% url 'technicians:technician-update' technician.id %}" class="btn-sub">ویرایش اطلاعات</a>
+            <a href="{% url 'accounts:user-profile-update' technician.user.id %}" class="btn-sub">ویرایش مشخصات شخصی</a>
         </div>
 
         <div class="profile-layout">

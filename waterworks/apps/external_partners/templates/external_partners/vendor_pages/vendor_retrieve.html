@@ -17,6 +17,7 @@
             <h1>اطلاعات فروشنده</h1>
             <div class="actions">
                 <a href="{% url 'external_partners:vendor-update' vendor.id %}" class="btn-sub btn-sm">ویرایش اطلاعات</a>
+                <a href="{% url 'accounts:user-profile-update' vendor.user.id %}" class="btn-sub btn-sm">ویرایش مشخصات شخصی</a>
             </div>
         </header>
 
