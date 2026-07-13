@@ -34,31 +34,31 @@ class UserProfileUpdateView(View):
         "profile_form": UserProfileUpdateForm
     }
     template_name = "accounts/user_profile.html"
+    authorized_roles: tuple[str, ...] = ("Admin",)
 
-    def dispatch(self, request, *args, **kwargs):
+    def dispatch(self, *args, **kwargs):
         """
-        Override the dispatch method to check if the user is authenticated.
-        If not, redirect to the login page.
-        If the user is not an admin or does not match the user_id in the URL,
-        redirect to the user dashboard.
+        Ensures that the user who creating a new user
+        is one of the authorized users.
         """
-        if not request.user.is_authenticated:
-            messages.error(
-                request=request,
-                message=_("شما باید وارد حساب کاربری خود شوید."),
-                extra_tags="danger"
-            )
-            return redirect(reverse_lazy("accounts:user-login"))
+        user = self.request.user
+        is_allowed = (
+            user.is_superuser
+            or user.role in self.authorized_roles
+            or user.id == self.kwargs.get("user_id")
+        )
+        logger.debug(
+            f"{Fore.GREEN}Dispatching request for user: {user.username}, "
+            f"Role: {user.role}, Is allowed: {is_allowed}{Style.RESET_ALL}"
+        )
 
-        elif request.user.role != 'Admin' or request.user.id != kwargs.get('user_id'):
-            messages.error(
-                request=request,
-                message=_("شما اجازه دسترسی به این صفحه را ندارید."),
-                extra_tags="danger"
+        if not is_allowed:
+            logger.warning(
+                f"{Fore.YELLOW}User {user.username} is not allowed to create a user profile.{Style.RESET_ALL}"
             )
-            return redirect(reverse_lazy("accounts:user-dashboard"))
+            return redirect("home:main-home")
 
-        return super().dispatch(request, *args, **kwargs)
+        return super().dispatch(*args, **kwargs)
 
     def _get_redirect_url(self, request) -> str:
         """

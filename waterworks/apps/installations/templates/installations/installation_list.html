@@ -183,10 +183,10 @@
 
                 <div class="replacement-status">
 
-                    <span class="rep done">1</span>
-                    <span class="rep done">2</span>
-                    <span class="rep pending">3</span>
-                    <span class="rep">4</span>
+                    <span class="rep {% if installation.first_replacement_status %}done{% else %}pending{% endif %}">1</span>
+                    <span class="rep {% if installation.second_replacement_status %}done{% else %}pending{% endif %}">2</span>
+                    <span class="rep {% if installation.third_replacement_status %}done{% elif installation.second_replacement_status %}pending{% endif %}">3</span>
+                    <span class="rep {% if installation.fourth_replacement_status %}done{% elif installation.third_replacement_status %}pending{% endif %}">4</span>
 
                 </div>
 
