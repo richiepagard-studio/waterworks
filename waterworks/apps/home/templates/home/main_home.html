@@ -42,7 +42,7 @@
                         <div class="overview-icon">💧</div>
 
                         <div class="overview-info">
-                            <span class="overview-number">۲۴</span>
+                            <span class="overview-number">{{ devices_count | to_farsi_digit }}</span>
                             <span class="overview-label">دستگاه‌ها</span>
                         </div>
                     </a>
@@ -51,7 +51,7 @@
                         <div class="overview-icon">🔧</div>
 
                         <div class="overview-info">
-                            <span class="overview-number">۳۱۲</span>
+                            <span class="overview-number">{{ installations_count | to_farsi_digit }}</span>
                             <span class="overview-label">نصب‌ها</span>
                         </div>
                     </a>
@@ -60,7 +60,7 @@
                         <div class="overview-icon">🛠</div>
 
                         <div class="overview-info">
-                            <span class="overview-number">۴۱</span>
+                            <span class="overview-number">{{ installations_count | to_farsi_digit }}</span>
                             <span class="overview-label">سرویس‌ها</span>
                         </div>
                     </a>
@@ -69,7 +69,7 @@
                         <div class="overview-icon">👨‍🔧</div>
 
                         <div class="overview-info">
-                            <span class="overview-number">۱۲</span>
+                            <span class="overview-number">{{ technicians_count | to_farsi_digit }}</span>
                             <span class="overview-label">تکنسین‌ها</span>
                         </div>
                     </a>
