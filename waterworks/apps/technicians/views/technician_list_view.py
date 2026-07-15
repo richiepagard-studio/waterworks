@@ -1,19 +1,21 @@
-from django.shortcuts import render, redirect
-from django.views import View
+from django.shortcuts import redirect
+from django.views.generic import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from apps.technicians.models import Technician
 from apps.technicians.filters import TechnicianFilter
 
 
-class TechnicianListView(LoginRequiredMixin, View):
+class TechnicianListView(LoginRequiredMixin, ListView):
     """
     List all active technicians.
 
     Methods:
-        get (GET HTTP).
+        get(GET HTTP).
     """
     template_name = "technicians/technician_list.html"
+    model = Technician
+    paginate_by = 12
 
     def dispatch(self, request, *args, **kwargs):
         """
@@ -33,22 +35,24 @@ class TechnicianListView(LoginRequiredMixin, View):
 
         return super().dispatch(request, *args, **kwargs)
 
-    def get(self, request):
+    def get_queryset(self):
         """
-        Gets all active technicians and list them.
+        Returns filtered queryset based on user role and search filters.
         """
-        technicians = Technician.objects.filter(is_active=True)
-        # Search filter according to the 'TechnicianFilter'
-        filters = TechnicianFilter(request.GET, queryset=Technician.objects.all())
-        # Remake the quesryset to the requests of the search filters
-        technicians = filters.qs
+        user = self.request.user
 
-        context = {
-            "technicians": technicians,
-            "filters": filters
-        }
-        return render(
-            request=request,
-            template_name=self.template_name,
-            context=context
+        # Base queryset based on role
+        if user.role == "Technician":
+            queryset = Technician.objects.filter(
+                user_id=user.id
+            )
+        else:
+            queryset = Technician.objects.filter(is_active=True)
+
+        # Apply filtering
+        self.filterset = TechnicianFilter(
+            self.request.GET,
+            queryset=queryset
         )
+
+        return self.filterset.qs

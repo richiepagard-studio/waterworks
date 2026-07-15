@@ -1,12 +1,12 @@
-from django.shortcuts import render, redirect
-from django.views import View
+from django.shortcuts import redirect
+from django.views.generic import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from apps.external_partners.models import Vendor
 from apps.external_partners.filters import VendorFilter
 
 
-class VendorListView(LoginRequiredMixin, View):
+class VendorListView(LoginRequiredMixin, ListView):
     """
     List all vendors.
 
@@ -14,6 +14,8 @@ class VendorListView(LoginRequiredMixin, View):
         get(GET HTTP).
     """
     template_name = "external_partners/vendor_pages/vendors_list.html"
+    model = Vendor
+    paginate_by = 9
 
     def dispatch(self, *args, **kwargs):
         """
@@ -33,26 +35,24 @@ class VendorListView(LoginRequiredMixin, View):
 
         return super().dispatch(*args, **kwargs)
 
-    def get(self, request):
+    def get_queryset(self):
         """
-        Lists all the vendors,
-        filters them base on the client request, the search filter.
+        Returns filtered queryset based on user role and search filters.
         """
-        vendors = Vendor.objects.all()
-        # Search filter according to the 'VendorFilter'
-        filters = VendorFilter(
-            request.GET,
-            queryset=Vendor.objects.all()
-        )
-        # Remake the quesryset to the requests of the search filters
-        vendors = filters.qs
+        queryset = Vendor.objects.all()
 
-        context = {
-            "vendors": vendors,
-            "filters": filters
-        }
-        return render(
-            request=request,
-            template_name=self.template_name,
-            context=context
+        # Apply filtering
+        self.filterset = VendorFilter(
+            self.request.GET,
+            queryset=queryset
         )
+
+        return self.filterset.qs
+
+    def get_context_data(self, **kwargs):
+        """
+        Adds the filterset to the context for rendering in the template.
+        """
+        context = super().get_context_data(**kwargs)
+        context['filterset'] = self.filterset
+        return context
