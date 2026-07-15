@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.views.generic import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -14,8 +14,7 @@ class InstallationListView(LoginRequiredMixin, ListView):
         get(GET HTTP).
     """
     model = Installation
-    paginate_by = 20
-
+    paginate_by = 15
 
     def dispatch(self, request, *args, **kwargs):
         """
