@@ -201,7 +201,7 @@
 
             <!-- Previous -->
             {% if page_obj.has_previous %}
-                <a href="?page={{ page_obj.previous_page_number }}&{{ request.GET.urlencode }}"
+                <a href="?page={{ page_obj.previous_page_number }}"
                 class="page-btn">
                     قبلی
                 </a>
@@ -223,7 +223,7 @@
                         </span>
 
                     {% else %}
-                        <a href="?page={{ num }}&{{ request.GET.urlencode }}"
+                        <a href="?page={{ num }}"
                         class="page-number">
                             {{ num }}
                         </a>
@@ -236,7 +236,7 @@
 
             <!-- Next -->
             {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}&{{ request.GET.urlencode }}"
+                <a href="?page={{ page_obj.next_page_number }}"
                 class="page-btn">
                     بعدی
                 </a>

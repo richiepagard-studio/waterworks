@@ -14,7 +14,7 @@ class InstallationListView(LoginRequiredMixin, ListView):
         get(GET HTTP).
     """
     model = Installation
-    paginate_by = 20
+    paginate_by = 1
 
 
     def dispatch(self, request, *args, **kwargs):
