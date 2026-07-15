@@ -20,7 +20,7 @@
         <!-- Sellers Grid -->
         <div class="sellers-grid">
             <!-- Seller Card -->
-            {% for vendor in vendors %}
+            {% for vendor in object_list %}
                 <article class="seller-card">
                     <div class="seller-identity">
                         <h3>{{ vendor.shop_name }}</h3>
@@ -56,7 +56,7 @@
 
             <!-- Previous -->
             {% if page_obj.has_previous %}
-                <a href="?page={{ page_obj.previous_page_number }}&{{ request.GET.urlencode }}"
+                <a href="?page={{ page_obj.previous_page_number }}"
                 class="page-btn">
                     قبلی
                 </a>
@@ -78,7 +78,7 @@
                         </span>
 
                     {% else %}
-                        <a href="?page={{ num }}&{{ request.GET.urlencode }}"
+                        <a href="?page={{ num }}"
                         class="page-number">
                             {{ num }}
                         </a>
@@ -91,7 +91,7 @@
 
             <!-- Next -->
             {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}&{{ request.GET.urlencode }}"
+                <a href="?page={{ page_obj.next_page_number }}"
                 class="page-btn">
                     بعدی
                 </a>
