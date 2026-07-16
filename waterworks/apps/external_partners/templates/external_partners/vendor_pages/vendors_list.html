@@ -10,44 +10,77 @@
 {% block content %}
 
     <main class="page-container">
-        <header class="page-header">
-            <h1>لیست فروشندگان</h1>
-            <button class="btn-sub btn-sm">
-                <a href="{% url 'external_partners:vendor-create-user' %}">+ افزودن فروشنده</a>
+        <!-- Page Header -->
+        <div class="seller-page-header">
+            <h2 class="page-title">لیست فروشندگان</h2>
+            {% if request.user.is_superuser or request.user.role == 'admin' %}
+                <a href="{% url 'external_partners:vendor-create-user' %}" class="add-new-seller-btn">
+                    <span class="icon">+</span>
+                    فروشنده جدید
+                </a>
+            {% endif %}
+        </div>
+
+        <!-- Filters Section -->
+        <section class="seller-filters" id="filter-section">
+            <button class="seller-filter-toggle" type="button" onclick="document.getElementById('filter-section').classList.toggle('open')">
+                <span>فیلترها</span>
+                <span class="arrow">▾</span>
             </button>
-        </header>
+
+            <form class="seller-filter-form" method="get" action="{% url 'external_partners:vendors-list' %}">
+                <input type="text" placeholder="نام فروشگاه" name="shop_name" value="{{ request.GET.shop_name }}">
+                <input type="text" placeholder="نام مدیر" name="last_name" value="{{ request.GET.last_name }}">
+                <input type="text" placeholder="شماره تماس" name="contact_phone" value="{{ request.GET.contact_phone }}">
+                <button type="submit" class="seller-filter-btn">جستجو</button>
+            </form>
+        </section>
 
         <!-- Sellers Grid -->
-        <div class="sellers-grid">
-            <!-- Seller Card -->
+        <section class="sellers-grid">
+
             {% for vendor in object_list %}
+
                 <article class="seller-card">
-                    <div class="seller-identity">
-                        <h3>{{ vendor.shop_name }}</h3>
-                        <p class="seller-owner">مدیر: {{ vendor.user.userprofile.fullname }}</p>
+                    <div class="seller-top">
+                        <div class="seller-name">{{ vendor.shop_name }}</div>
+                        {% if vendor.is_active %}
+                            <span class="seller-status active">فعال</span>
+                        {% else %}
+                            <span class="seller-status deactive">غیرفعال</span>
+                        {% endif %}
                     </div>
-
-                    <div class="seller-info">
-                        <div class="info-item">
-                            <span class="label">تلفن کسب:</span>
-                            <span dir="ltr">{{ vendor.contact_phone.as_national | to_farsi_digit }}</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="label">موبایل:</span>
-                            <span dir="ltr">{{ vendor.user.phone_number.as_national | to_farsi_digit }}</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="label">تعداد فروش:</span>
-                            <span class="badge-count">{{ vendor.installations.count | to_farsi_digit }} دستگاه</span>
-                        </div>
+                    <div class="seller-owner">
+                        مدیر: {{ vendor.user.userprofile.fullname }}
                     </div>
-
+                    <div class="seller-meta">
+                        <div>
+                            <span class="seller-meta-label">تلفن کسب</span>
+                            <span class="seller-meta-value" dir="ltr">
+                                {{ vendor.contact_phone.as_national | to_farsi_digit }}
+                            </span>
+                        </div>
+                        <div>
+                            <span class="seller-meta-label">موبایل</span>
+                            <span class="seller-meta-value" dir="ltr">
+                                {{ vendor.user.phone_number.as_national | to_farsi_digit }}
+                            </span>
+                        </div>
+                        <!-- <div>
+                            <span class="seller-meta-label">فروش</span>
+                            <span class="seller-sales-badge">۱۲۴ دستگاه</span>
+                        </div> -->
+                    </div>
                     <div class="seller-actions">
-                        <button class="btn-sub"><a href="{{ vendor.get_absolute_url }}">مشاهده جزئیات</a></button>
+                        <a href="{{ vendor.get_absolute_url }}" class="btn-sub seller-detail-link">
+                            مشاهده آمار
+                        </a>
                     </div>
                 </article>
+
             {% endfor %}
-        </div>
+
+        </section>
     </main>
 
     <!-- Pagination -->

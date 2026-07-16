@@ -1,70 +1,175 @@
 /* ==========================================================================
-   SELLERS LIST STYLES
+   Seller Management Page Styles
+   Namespace: .seller-
    ========================================================================== */
 
-.sellers-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: var(--space-4);
-    margin-top: 2rem;
+/* Header Styles */
+.seller-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-6);
 }
 
+.add-new-seller-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.add-new-seller-btn:hover {
+    border-color: var(--color-primary);
+    background: var(--color-surface-soft);
+}
+
+/* Filter Section */
+.seller-filters {
+    margin-bottom: var(--space-7);
+}
+
+.seller-filter-form {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+}
+
+.seller-filter-form input,
+.seller-filter-form select {
+    height: 40px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 0 10px;
+    font-size: 0.84rem;
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+}
+
+.seller-filter-btn {
+    height: 40px;
+    border: none;
+    border-radius: var(--radius-md);
+    background: var(--color-primary);
+    color: white;
+    cursor: pointer;
+}
+
+/* Desktop default: hide toggle button */
+.seller-filter-toggle {
+    display: none;
+}
+
+/* Mobile responsive filter behavior */
+@media (max-width: 600px) {
+    .seller-filter-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        height: 40px;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        padding: 0 12px;
+        margin-bottom: var(--space-4);
+        background: var(--color-surface);
+        cursor: pointer;
+    }
+
+    .seller-filter-form {
+        grid-template-columns: 1fr;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+
+    .seller-filters.open .seller-filter-form {
+        max-height: 500px;
+        opacity: 1;
+        margin-top: 10px;
+    }
+
+    .seller-filters.open .arrow {
+        transform: rotate(180deg);
+    }
+}
+
+/* Tablet adjustments */
+@media (max-width: 1100px) {
+    .seller-filter-form {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Seller Grid Layout */
+.sellers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-5);
+    margin-bottom: var(--space-7);
+}
+
+@media (max-width: 1100px) { .sellers-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .sellers-grid { grid-template-columns: 1fr; } }
+
+/* Seller Card Design */
 .seller-card {
-    background: var(--color-surface); /* Uses system surface color */
-    padding: var(--space-5);
-    border: 1px solid var(--color-border); /* Uses system border */
+    padding: 16px;
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
+    background: var(--color-surface);
     transition: all 0.2s ease;
 }
 
 .seller-card:hover {
     border-color: var(--color-primary);
-    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-.seller-identity h3 {
-    margin: 0 0 0.5rem 0;
-    color: var(--color-text);
-}
-
-.seller-owner {
-    color: var(--color-text-muted);
-    font-size: 0.9rem;
-    margin-bottom: 1.5rem;
-}
-
-.seller-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-    margin-bottom: 1.5rem;
-}
-
-.info-item {
+.seller-top {
     display: flex;
     justify-content: space-between;
-    font-size: 0.95rem;
+    align-items: center;
+    margin-bottom: 6px;
 }
 
-.info-item .label {
-    color: var(--color-text-muted);
-}
+.seller-name { font-weight: 600; font-size: 0.95rem; }
 
-.info-item .value {
-    color: var(--color-text);
-}
-
-.badge-count {
-    background: var(--color-primary-light); /* Assuming this exists in your system */
-    color: var(--color-primary);
+.seller-status {
     padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 0.85rem;
-    font-weight: 600;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    border: 1px solid var(--color-border);
 }
 
-.seller-actions {
-    border-top: 1px solid var(--color-border);
-    padding-top: 1rem;
-    text-align: left;
+.seller-status.active { background: #e7f7ed; color: #1e7e34; }
+.seller-status.inactive { background: #fff4e5; color: #b76e00; }
+
+.seller-owner { font-size: 0.8rem; color: var(--color-text-muted); margin-bottom: 12px; }
+
+.seller-meta {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
 }
+
+.seller-meta-label { display: block; font-size: 0.7rem; color: var(--color-text-muted); }
+.seller-meta-value { font-size: 0.8rem; font-weight: 500; }
+
+.seller-sales-badge {
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+}
+
+.seller-actions { padding-top: 10px; border-top: 1px solid var(--color-border); }
+.seller-detail-link { font-size: 0.85rem; color: var(--color-primary); text-decoration: none; }
