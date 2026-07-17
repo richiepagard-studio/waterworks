@@ -20,7 +20,7 @@
     </div>
 
     <!-- Replacement Cards -->
-    <div class="filters-grid">
+    <div class="filters-grid mt-4">
         <div class="filter-card {% if object.first_replacement_status %}active-filter{% else %}empty-filter{% endif %}">
             <span class="filter-title">تاریخ تعویض فیلتر اول</span>
             <span class="filter-date">{{ object.first_replacement_date | to_jalali:"%d %B %Y" | to_farsi_digit }}</span>
@@ -42,36 +42,76 @@
     <!-- Customer Information Card -->
     <div class="installation-info-card">
         <div class="card-header">
-            <h3>اطلاعات نصب</h3>
-            <span class="status-badge active">وضعیت: فعال</span>
+            <div class="header-title">
+                <h3>جزئیات کامل نصب</h3>
+                <p>اطلاعات ثبت شده در سیستم مرکزی</p>
+            </div>
+            {% if object.is_active %}
+                <span class="status-badge active">● فعال</span>
+            {% else %}
+                <span class="status-badge deactive">● غیرفعال</span>
+            {% endif %}
         </div>
 
-        <div class="info-grid">
-            <div><span>نام:</span><strong>{{ object.user.userprofile.fullname }}</strong></div>
-            <div><span>کد نصب:</span><strong>{{ object.installation_code }}</strong></div>
-            <div><span>شماره تماس:</span>
-                <strong dir="ltr" style="text-align: right;">{{ object.user.phone_number.as_national | to_farsi_digit }}</strong>
+        <div class="info-layout">
+            <!-- Column 1: Customer Info -->
+            <div class="info-section">
+                <h4 class="section-title">👤 اطلاعات مشتری</h4>
+                <div class="info-grid-simple">
+                    <div>
+                        <span>نام و نام خانوادگی</span>
+                        <strong>{{ object.user.userprofile.fullname }}</strong>
+                    </div>
+                    <div>
+                        <span>کد مشتری</span>
+                        <strong>{{ object.installation_code }}</strong>
+                    </div>
+                    <div>
+                        <span>شماره تماس</span>
+                        <strong dir="ltr" style="text-align: right;">
+                            {{ object.user.phone_number.as_national | to_farsi_digit }}
+                        </strong>
+                    </div>
+                    <!-- <div>
+                        <span>کد ملی</span>
+                        <strong>{{ object. }}</strong>
+                    </div> -->
+                </div>
+                <div class="info-address">
+                    <span>آدرس دقیق</span>
+                    <strong>{{ object.user.userprofile.address }}</strong>
+                </div>
             </div>
-            <!-- <div><span>کد ملی:</span><strong>{{ object.national_code | to_farsi_digit }}</strong></div> -->
 
-            <div><span>نصاب:</span>
-                <strong>
-                    <a href="{{ object.technician.get_absolute_url }}" class="info-link">{{ object.technician.user.userprofile.fullname }}</a>
-                </strong>
-            </div>
-            <div><span>تاریخ نصب:</span><strong>{{ object.installation_date | to_jalali:"%d %B %Y" | to_farsi_digit }}</strong></div>
-            <div><span>دستگاه:</span>
-                <strong>
-                    <a href="{{ object.device.get_absolute_url }}" class="info-link">{{ object.device.name }} - {{ object.device.model }}</a>
-                </strong>
-            </div>
-            <div><span>فروشنده:</span>
-                <strong><a href="{{ object.vendor.get_absolute_url }}" class="info-link">{{ object.vendor.shop_name }}</a></strong>
-            </div>
-
-            <div>
-                <span>آدرس:</span>
-                <strong>{{ object.user.userprofile.address }}</strong>
+            <!-- Column 2: System & Assignment -->
+            <div class="info-section">
+                <h4 class="section-title">⚙️ اطلاعات فنی و انتساب</h4>
+                <div class="info-grid-simple">
+                    <div>
+                        <span>نصاب</span>
+                        <a href="{{ object.technician.get_absolute_url }}" class="info-link">
+                            {{ object.technician.user.userprofile.fullname }}
+                        </a>
+                    </div>
+                    <div>
+                        <span>دستگاه</span>
+                        <a href="{{ object.device.get_absolute_url }}" class="info-link">
+                            {{ object.device }}
+                        </a>
+                    </div>
+                    <div>
+                        <span>فروشنده</span>
+                        <a href="{{ object.vendor.get_absolute_url }}" class="info-link">
+                            {{ object.vendor.shop_name }}
+                        </a>
+                    </div>
+                    <div>
+                        <span>تاریخ نصب</span>
+                        <strong>
+                            {{ object.installation_date | to_jalali:"%d %B %Y" | to_farsi_digit }}
+                        </strong>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

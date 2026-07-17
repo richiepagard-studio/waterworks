@@ -1,278 +1,163 @@
-/* =====================================================
-   Installation Detail Page
-   ===================================================== */
+/* Main card */
+.installation-info-card {
+    padding: 24px;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+}
 
-
-/* =====================================================
-   Topbar Tabs
-   ===================================================== */
-
-.installation-topbar {
+/* Header */
+.card-header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
-    margin-bottom: var(--space-6);
+    gap: 16px;
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--color-border);
 }
 
-.installation-tabs {
-    display: flex;
-    gap: 8px;
+.header-title h3 {
+    margin: 0 0 6px;
+    font-size: 1.08rem;
+    font-weight: 700;
 }
 
-.tab {
-    padding: 6px 14px;
-    font-size: 0.85rem;
-
-    border-radius: var(--radius-md);
-    border: 1px solid var(--color-border);
-
-    background: var(--color-surface);
-    cursor: pointer;
-
-    transition: all 0.2s ease;
-}
-
-.tab:hover {
-    border-color: var(--color-primary);
-}
-
-.tab.active {
-    background: var(--color-primary-soft);
-    border-color: var(--color-primary);
-    color: var(--color-primary);
-}
-
-
-
-/* =====================================================
-   Filter Replacement Cards
-   (Status of filter replacements)
-   ===================================================== */
-
-.filters-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-
-    gap: var(--space-4);
-    margin-bottom: var(--space-7);
-}
-
-.filter-card {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-
-    padding: 14px;
-
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--color-border);
-
-    background: var(--color-surface);
-
-    transition: transform 0.2s ease;
-}
-
-.filter-card:hover {
-    transform: translateY(-2px);
-}
-
-
-/* Filter text */
-
-.filter-title {
-    font-size: 0.85rem;
+.header-title p {
+    margin: 0;
+    font-size: 0.8rem;
     color: var(--color-text-muted);
 }
 
-.filter-date {
-    font-size: 0.9rem;
+/* Status */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: var(--radius-pill);
+    font-size: 0.75rem;
     font-weight: 600;
+    white-space: nowrap;
 }
 
-
-
-/* =====================================================
-   Filter Status Colors
-   ===================================================== */
-
-
-/* Completed replacement */
-
-.active-filter {
+.status-badge.active {
     background: rgba(34, 197, 94, 0.12);
-    border-color: rgba(34, 197, 94, 0.25);
-}
-
-.active-filter .filter-date {
+    border: 1px solid rgba(34, 197, 94, 0.25);
     color: #16a34a;
 }
 
-
-/* Not replaced yet */
-
-.empty-filter {
-    background: rgba(249, 115, 22, 0.12);
-    border-color: rgba(249, 115, 22, 0.25);
+/* Two-column layout */
+.info-layout {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
 }
 
-.empty-filter .filter-date {
-    color: #ea580c;
-}
-
-
-
-/* =====================================================
-   Installation Information Card
-   ===================================================== */
-
-.installation-info-card {
-    padding: var(--space-4);
-
-    border-radius: var(--radius-lg);
+/* Stronger section separation */
+.info-section {
+    padding: 18px;
     border: 1px solid var(--color-border);
-
-    background: var(--color-surface);
-
-    width: 70%;
-    margin: auto;
+    border-radius: var(--radius-lg);
+    background: var(--color-surface-soft);
 }
 
-
-
-/* =====================================================
-   Card Header
-   ===================================================== */
-
-.card-header {
+.section-title {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-
-    margin-bottom: var(--space-5);
+    gap: 8px;
+    margin: 0 0 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed var(--color-border);
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--color-text);
 }
 
-.card-header h3 {
-    font-size: 1rem;
-    font-weight: 600;
-}
-
-
-
-/* =====================================================
-   Status Badge
-   ===================================================== */
-
-.status-badge {
-    padding: 4px 10px;
-
-    font-size: 0.75rem;
-
-    border-radius: var(--radius-pill);
-    /* border: 1px solid transparent; */
-    box-shadow: 0 1px 10px #16a34a;
-}
-
-/* Active status */
-
-.status-badge.active {
-    background: rgba(249, 115, 22, 0.12);
-    border-color: rgba(249, 115, 22, 0.25);
-    color: #ea580c;
-}
-
-
-
-/* =====================================================
-   Installation Info Grid
-   ===================================================== */
-
-.info-grid {
+/* Dense info grid */
+.info-grid-simple {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-
-    gap: 18px 40px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 16px;
 }
 
-.info-grid div {
+.info-grid-simple div {
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 5px;
+    padding: 10px 12px;
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    border: 1px solid rgba(127, 127, 127, 0.08);
 }
 
-
-/* Labels */
-
-.info-grid span {
-    font-size: 0.75rem;
+.info-grid-simple span {
+    font-size: 0.72rem;
     color: var(--color-text-muted);
 }
 
-
-/* Values */
-
-.info-grid strong {
-    font-size: 0.9rem;
+.info-grid-simple strong,
+.info-grid-simple a {
+    font-size: 0.88rem;
     font-weight: 600;
 }
 
+/* Address block */
+.info-address {
+    margin-top: 16px;
+    padding: 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(127, 127, 127, 0.1);
+    background: var(--color-surface);
+}
 
+.info-address span {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.72rem;
+    color: var(--color-text-muted);
+}
 
-/* =====================================================
-   Info Links
-   (Installer / Device / Seller)
-   ===================================================== */
+.info-address strong {
+    font-size: 0.88rem;
+    line-height: 1.9;
+}
 
+/* Links */
 .info-link {
-    text-decoration: none;
     color: var(--color-primary);
+    text-decoration: none;
 }
 
 .info-link:hover {
     text-decoration: underline;
 }
 
-
-
-/* =====================================================
-   Full Row (Address Field)
-   ===================================================== */
-
-.full-row {
-    grid-column: 1 / -1;
-}
-
-
-
-/* =====================================================
-   Responsive — Tablet
-   ===================================================== */
-
+/* Responsive */
 @media (max-width: 1100px) {
-
-    .filters-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .installation-info-card {width: 80%;}
-
-}
-
-
-
-/* =====================================================
-   Responsive — Mobile
-   ===================================================== */
-
-@media (max-width: 600px) {
-
-    .filters-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .info-grid {
+    .info-layout {
         grid-template-columns: 1fr;
     }
+}
 
-    .installation-info-card {width: 100%;}
+@media (max-width: 700px) {
+    .card-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
 
+    .info-grid-simple {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .installation-info-card {
+        padding: 16px;
+    }
+
+    .info-section {
+        padding: 14px;
+    }
 }
