@@ -15,27 +15,7 @@
         <div class="installation-tabs">
             <button class="tab active"><a href="{{ object.get_absolute_url }}">جزئیات</a></button>
             <button class="tab"><a href="{% url 'installations:installation-update' object.pk %}">تنظیمات</a></button>
-            <button class="tab"><a href="{% url 'accounts:user-profile-update' object.user.id %}?next={{ request.get_full_path|urlencode }}">ویرایش مشخصات شخصی</a></button>
-        </div>
-    </div>
-
-    <!-- Replacement Cards -->
-    <div class="filters-grid mt-4">
-        <div class="filter-card {% if object.first_replacement_status %}active-filter{% else %}empty-filter{% endif %}">
-            <span class="filter-title">تاریخ تعویض فیلتر اول</span>
-            <span class="filter-date">{{ object.first_replacement_date | to_jalali:"%d %B %Y" | to_farsi_digit }}</span>
-        </div>
-        <div class="filter-card {% if object.second_replacement_status %}active-filter{% else %}empty-filter{% endif %}">
-            <span class="filter-title">تاریخ تعویض فیلتر دوم</span>
-            <span class="filter-date">{{ object.second_replacement_date | to_jalali:"%d %B %Y" | to_farsi_digit }}</span>
-        </div>
-        <div class="filter-card {% if object.third_replacement_status %}active-filter{% else %}empty-filter{% endif %}">
-            <span class="filter-title">تاریخ تعویض فیلتر سوم</span>
-            <span class="filter-date">{{ object.third_replacement_date | to_jalali:"%d %B %Y" | to_farsi_digit }}</span>
-        </div>
-        <div class="filter-card {% if object.forth_replacement_status %}active-filter{% else %}empty-filter{% endif %}">
-            <span class="filter-title">تاریخ تعویض فیلتر چهارم</span>
-            <span class="filter-date">{{ object.forth_replacement_date | to_jalali:"%d %B %Y" | to_farsi_digit }}</span>
+            <button class="tab"><a href="{% url 'accounts:user-profile-update' object.user.id %}?next={{ request.get_full_path|urlencode }}">ویرایش</a></button>
         </div>
     </div>
 
@@ -43,8 +23,8 @@
     <div class="installation-info-card">
         <div class="card-header">
             <div class="header-title">
-                <h3>جزئیات کامل نصب</h3>
-                <p>اطلاعات ثبت شده در سیستم مرکزی</p>
+                <h3>جزئیات نصب</h3>
+                <p>مشخصات ثبت شده مشتری و نصب</p>
             </div>
             {% if object.is_active %}
                 <span class="status-badge active">● فعال</span>
@@ -85,14 +65,8 @@
 
             <!-- Column 2: System & Assignment -->
             <div class="info-section">
-                <h4 class="section-title">⚙️ اطلاعات فنی و انتساب</h4>
+                <h4 class="section-title">⚙️ اطلاعات فنی و نصب</h4>
                 <div class="info-grid-simple">
-                    <div>
-                        <span>نصاب</span>
-                        <a href="{{ object.technician.get_absolute_url }}" class="info-link">
-                            {{ object.technician.user.userprofile.fullname }}
-                        </a>
-                    </div>
                     <div>
                         <span>دستگاه</span>
                         <a href="{{ object.device.get_absolute_url }}" class="info-link">
@@ -106,6 +80,12 @@
                         </a>
                     </div>
                     <div>
+                        <span>نصاب</span>
+                        <a href="{{ object.technician.get_absolute_url }}" class="info-link">
+                            {{ object.technician.user.userprofile.fullname }}
+                        </a>
+                    </div>
+                    <div>
                         <span>تاریخ نصب</span>
                         <strong>
                             {{ object.installation_date | to_jalali:"%d %B %Y" | to_farsi_digit }}
@@ -113,6 +93,26 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Replacement Cards -->
+    <div class="filters-grid mt-4">
+        <div class="filter-card {% if object.first_replacement_status %}active-filter{% else %}empty-filter{% endif %}">
+            <span class="filter-title">تاریخ تعویض فیلتر اول</span>
+            <span class="filter-date">{{ object.first_replacement_date | to_jalali:"%d %B %Y" | to_farsi_digit }}</span>
+        </div>
+        <div class="filter-card {% if object.second_replacement_status %}active-filter{% else %}empty-filter{% endif %}">
+            <span class="filter-title">تاریخ تعویض فیلتر دوم</span>
+            <span class="filter-date">{{ object.second_replacement_date | to_jalali:"%d %B %Y" | to_farsi_digit }}</span>
+        </div>
+        <div class="filter-card {% if object.third_replacement_status %}active-filter{% else %}empty-filter{% endif %}">
+            <span class="filter-title">تاریخ تعویض فیلتر سوم</span>
+            <span class="filter-date">{{ object.third_replacement_date | to_jalali:"%d %B %Y" | to_farsi_digit }}</span>
+        </div>
+        <div class="filter-card {% if object.forth_replacement_status %}active-filter{% else %}empty-filter{% endif %}">
+            <span class="filter-title">تاریخ تعویض فیلتر چهارم</span>
+            <span class="filter-date">{{ object.forth_replacement_date | to_jalali:"%d %B %Y" | to_farsi_digit }}</span>
         </div>
     </div>
 
