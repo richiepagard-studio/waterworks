@@ -12,71 +12,127 @@
 {% block content %}
 
     <main class="page-container">
-        <!-- Header with Actions -->
         <header class="profile-header">
-            <h1>اطلاعات فروشنده</h1>
+            <div class="header-title">
+                <h1>اطلاعات فروشنده</h1>
+                <p>نمای کلی اطلاعات، آدرس و آخرین فعالیت‌ها</p>
+            </div>
+
             <div class="actions">
-                <a href="{% url 'external_partners:vendor-update' vendor.id %}" class="btn-sub btn-sm">ویرایش اطلاعات</a>
-                <a href="{% url 'accounts:user-profile-update' vendor.user.id %}" class="btn-sub btn-sm">ویرایش مشخصات شخصی</a>
+                <a href="{% url 'external_partners:vendor-update' vendor.pk %}">
+                    <button class="btn-sub btn-sm">ویرایش اطلاعات</button>
+                </a>
             </div>
         </header>
 
-        <div class="profile-layout">
-            <!-- Main Info Card -->
-            <section class="info-card">
-                <div class="seller-header">
-                    {% if vendor.banner %}
-                        <img src="{{ vendor.banner.url }}" alt="Shop" class="seller-avatar">
-                    {% endif %}
-                    <div>
-                        <h2>{{ vendor.shop_name }}</h2>
-                        {% if vendor.is_active %}
-                            <span class="status-pill active">فعال</span>
-                        {% else %}
-                            <span class="status-pill">غیرفعال</span>
+        <div class="seller-detail-layout">
+            <!-- Main seller info -->
+            <section class="seller-detail-card">
+                <div class="detail-card-header">
+                    <div class="seller-header">
+                        {% if vendor.banner %}
+                            <img src="{{ vendor.banner.url }}" alt="Shop" class="seller-avatar">
                         {% endif %}
+                        <div class="seller-headline">
+                            <h2>{{ vendor.shop_name }}</h2>
+                            {% if vendor.is_active %}
+                                <span class="status-pill active">فعال</span>
+                            {% else %}
+                                <span class="status-pill deactive">غیرفعال</span>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
 
-                <div class="info-grid">
-                    <div class="info-item">
-                        <span class="label">مدیر:</span>
-                        <span class="value">{{ vendor.user.userprofile.fullname }}</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="label">تلفن کسب:</span>
-                        <span class="value phone-value">
-                            {{ vendor.contact_phone.as_national | to_farsi_digit }}
-                        </span>
-                    </div>
-                    <div class="info-item">
-                        <span class="label">موبایل:</span>
-                        <span class="value phone-value">{{ vendor.user.phone_number.as_national | to_farsi_digit }}</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="label">تعداد فروش:</span>
-                        <span class="value">{{ vendor.installations.count | to_farsi_digit }} دستگاه</span>
-                    </div>
-                </div>
-                <div class="address-box">
-                    <span class="label">آدرس:</span>
-                    <p>{{ vendor.user.userprofile.address }}</p>
+                <div class="seller-info-layout">
+                    <section class="seller-info-section">
+                        <h3 class="section-title">اطلاعات فروشنده</h3>
+
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <span class="label">مدیر</span>
+                                <span class="value">{{ vendor.user.userprofile.fullname }}</span>
+                            </div>
+
+                            <div class="info-item">
+                                <span class="label">تلفن کسب</span>
+                                <span class="value" dir="ltr" style="text-align: right;">
+                                    {{ vendor.contact_phone.as_national | to_farsi_digit }}
+                                </span>
+                            </div>
+
+                            <div class="info-item">
+                                <span class="label">موبایل</span>
+                                <span class="value" dir="ltr" style="text-align: right;">
+                                    {{ vendor.user.phone_number.as_national | to_farsi_digit }}
+                                </span>
+                            </div>
+
+                            <div class="info-item">
+                                <span class="label">تعداد فروش</span>
+                                <span class="value">
+                                    {{ vendor.installations.count | to_farsi_digit }} دستگاه
+                                </span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="seller-info-section">
+                        <h3 class="section-title">آدرس فروشگاه</h3>
+
+                        <div class="address-box">
+                            <span class="label">آدرس کامل</span>
+                            <p>{{ vendor.user.userprofile.address }}</p>
+                        </div>
+
+                        <!-- <div class="mini-note">
+                            <span class="label">وضعیت ثبت</span>
+                            <span class="value">
+                                آدرس تایید شده و قابل استفاده در ثبت نصب‌ها
+                            </span>
+                        </div> -->
+
+                    </section>
                 </div>
             </section>
 
-            <!-- Recent Installations -->
-            <section class="recent-list">
-                <h3>آخرین نصب‌ها</h3>
-                <div class="compact-list">
-                    <div class="list-item">
-                        <span>فیلتر تصفیه آب مدل X1</span>
-                        <small>نصاب: حسین محمدی</small>
-                    </div>
-                    <div class="list-item">
-                        <span>فیلتر یخچال مدل Y2</span>
-                        <small>نصاب: رضا کریمی</small>
-                    </div>
-                    <!-- Repeat for more items -->
+            <!-- Recent installations -->
+            <section class="recent-installations-card">
+                <div class="detail-card-header compact">
+                    <h3>آخرین نصب‌ها</h3>
+                    <span class="card-caption">
+                        {{ vendor_installations_count | to_farsi_digit }} مورد اخیر
+                    </span>
+                </div>
+
+                <div class="activity-list">
+                    {% for installation in vendor_installations %}
+                        <div class="activity-item">
+                            <div class="activity-main">
+                                <span class="activity-title">{{ installation.device }}</span>
+                                <small>
+                                    نصاب: {{ installation.vendor.user.userprofile.fullname }}
+                                </small>
+                            </div>
+                            {% if installation.last %}
+                                <span class="activity-badge">جدید</span>
+                            {% else %}
+                                <span class="activity-badge muted">قبلی</span>
+                            {% endif %}
+                        </div>
+                    {% empty %}
+                        <div class="activity-item">
+                            <div class="activity-main">
+                                <span class="activity-title">
+                                    هنوز نصبی ثبت نشده
+                                </span>
+                                <small>
+                                    ثبت نشدن نصب به دلیل غیرفعال بودن فروشنده یا عدم فعالیت فعلی 
+                                    و یا حتی عدم فروش و ثبت نصب.
+                                </small>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
             </section>
         </div>

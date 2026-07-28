@@ -13,7 +13,7 @@ class VendorRetrieveView(LoginRequiredMixin, View):
 	Methods:
 		get (GET HTTP).
 	"""
-	template_name = "external_partners/vendor_pages/vendor_retrieve.html"
+	template_name = 'external_partners/vendor_pages/vendor_retrieve.html'
 
 	def dispatch(self, request, *args, **kwargs):
 		"""
@@ -50,7 +50,13 @@ class VendorRetrieveView(LoginRequiredMixin, View):
 		elif role == 'Admin' or user.is_superuser:
 			vendor = get_object_or_404(Vendor, pk=vendor_pk)
 
-		context = {"vendor": vendor}
+		vendor_installations = vendor.installations.all()
+
+		context = {
+			'vendor': vendor,
+			'vendor_installations': vendor_installations[:5],
+			'vendor_installations_count': len(vendor_installations)
+		}
 		return render(
 			request=request,
             template_name=self.template_name,

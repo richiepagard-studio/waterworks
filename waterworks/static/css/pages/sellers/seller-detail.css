@@ -1,61 +1,247 @@
 /* ==========================================================================
-   SELLER DETAIL PAGE STYLES
+   SELLER DETAIL PAGE
    ========================================================================== */
 
-.profile-layout {
+.seller-detail-layout {
     display: grid;
-    grid-template-columns: 1fr 350px;
+    grid-template-columns: minmax(0, 1fr) 340px;
     gap: var(--space-5);
     margin-top: 2rem;
+    align-items: start;
+}
+
+.seller-detail-card,
+.recent-installations-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+}
+
+.seller-detail-card {
+    padding: 24px;
+}
+
+.recent-installations-card {
+    padding: 20px;
+}
+
+/* Header */
+.profile-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.header-title h1 {
+    margin: 0 0 6px;
+    font-size: 1.25rem;
+    font-weight: 800;
+}
+
+.header-title p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+}
+
+/* Main seller header */
+.detail-card-header {
+    padding-bottom: 18px;
+    margin-bottom: 22px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.detail-card-header.compact {
+    padding-bottom: 14px;
+    margin-bottom: 16px;
 }
 
 .seller-header {
     display: flex;
     align-items: center;
-    gap: 15px;
-    margin-bottom: var(--space-5);
+    gap: 16px;
 }
 
 .seller-avatar {
-    width: 70px;
-    height: 70px;
-    border-radius: var(--radius-md);
+    width: 72px;
+    height: 72px;
+    border-radius: var(--radius-lg);
     object-fit: cover;
     background: #eee;
+    border: 1px solid var(--color-border);
 }
 
-.info-grid {
+.seller-headline h2 {
+    margin: 0 0 8px;
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+/* Layout inside card */
+.seller-info-layout {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-4);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
 }
 
-.address-box {
-    margin-top: var(--space-4);
-    padding-top: var(--space-4);
-    border-top: 1px solid var(--color-border);
-}
-
-/* Compact List for Recent Activity */
-.recent-list h3 { margin-bottom: var(--space-3); }
-
-.compact-list {
-    background: var(--color-surface);
+.seller-info-section {
+    padding: 18px;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
-    padding: var(--space-3);
+    background: var(--color-surface-soft);
 }
 
-.list-item {
-    padding: var(--space-3);
-    border-bottom: 1px solid var(--color-border);
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed var(--color-border);
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: var(--color-text);
 }
-.list-item:last-child { border-bottom: none; }
-.list-item small { display: block; color: var(--color-text-muted); }
 
-span.phone-value {direction: ltr; text-align: right;}
+/* Info grid */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
 
-/* Responsive adjustments */
-@media (max-width: 900px) {
-    .profile-layout { grid-template-columns: 1fr; }
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px;
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    border: 1px solid rgba(127, 127, 127, 0.08);
+}
+
+.label {
+    font-size: 0.72rem;
+    color: var(--color-text-muted);
+}
+
+.value {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+/* Address */
+.address-box {
+    padding: 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(127, 127, 127, 0.1);
+    background: var(--color-surface);
+}
+
+.address-box p {
+    margin: 6px 0 0;
+    font-size: 0.92rem;
+    line-height: 1.9;
+    color: var(--color-text);
+}
+
+.mini-note {
+    margin-top: 14px;
+    padding: 12px 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(59, 130, 246, 0.14);
+    background: rgba(59, 130, 246, 0.06);
+}
+
+/* Recent installations */
+.card-caption {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+}
+
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.activity-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface-soft);
+}
+
+.activity-main {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.activity-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.activity-main small {
+    color: var(--color-text-muted);
+    font-size: 0.78rem;
+}
+
+.activity-badge {
+    flex-shrink: 0;
+    padding: 5px 10px;
+    border-radius: var(--radius-pill);
+    font-size: 0.72rem;
+    font-weight: 700;
+    background: rgba(34, 197, 94, 0.12);
+    color: #16a34a;
+}
+
+.activity-badge.muted {
+    background: rgba(127, 127, 127, 0.1);
+    color: var(--color-text-muted);
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+    .seller-detail-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 700px) {
+    .profile-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .seller-info-layout,
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .seller-header {
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 600px) {
+    .seller-detail-card,
+    .recent-installations-card {
+        padding: 16px;
+    }
+
+    .seller-info-section {
+        padding: 14px;
+    }
 }
