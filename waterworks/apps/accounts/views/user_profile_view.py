@@ -111,7 +111,11 @@ class UserProfileUpdateView(View):
         POST = request.POST
         forms = {
             "user_form": self.form_classes["user_form"](POST, instance=user),
-            "profile_form": self.form_classes["profile_form"](POST, instance=userprofile)
+            "profile_form": self.form_classes["profile_form"](
+                data=POST,
+                files=request.FILES,
+                instance=userprofile
+            )
         }
         redirect_url = self._get_redirect_url(request)
 

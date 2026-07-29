@@ -44,12 +44,13 @@ class UserProfileUpdateForm(forms.ModelForm):
 
     class Meta:
         model = UserProfile
-        fields = ('first_name', 'last_name', 'address')
+        fields = ('first_name', 'last_name', 'address', 'avatar_image')
 
         labels = {
             "first_name": _("نام کوچک"),
             "last_name": _("نام خانوادگی"),
-            "address": _("آدرس")
+            "address": _("آدرس"),
+            "avatar_image": _("تصویر پروفایل")
         }
 
 
