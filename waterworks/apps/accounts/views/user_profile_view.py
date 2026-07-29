@@ -92,6 +92,8 @@ class UserProfileUpdateView(View):
             "user_form": self.form_classes["user_form"](instance=user),
             "profile_form": self.form_classes["profile_form"](instance=userprofile),
             "next_url": self._get_redirect_url(request),
+            "user": user,
+            "userprofile": userprofile
         }
 
         return render(
