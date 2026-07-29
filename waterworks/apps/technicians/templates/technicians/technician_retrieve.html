@@ -11,109 +11,133 @@
 {% block content %}
 
     <main class="installer-profile">
-        <!-- Top Action Bar -->
-        <div class="profile-actions">
-            <button class="btn-sub">جزئیات</button>
-            <a href="{% url 'technicians:technician-update' technician.id %}" class="btn-sub">ویرایش اطلاعات</a>
-            <a href="{% url 'accounts:user-profile-update' technician.user.id %}" class="btn-sub">ویرایش مشخصات شخصی</a>
-        </div>
+                    
+        <!-- Actions & Title Bar -->
+        <header class="installer-actions-header">
+            <h1>پروفایل نصاب</h1>
+            <div class="installer-actions-group">
+                <a href="{% url 'technicians:technician-update' technician.id %}">
+                    <button class="btn-sub btn-sm">ویرایش اطلاعات</button>
+                </a>
+                <a href="{% url 'accounts:user-profile-update' technician.user.id %}">
+                    <button class="btn-sub btn-sm">ویرایش</button>
+                </a>
+            </div>
+        </header>
 
-        <div class="profile-layout">
-            <!-- Sidebar: Info & Avatar -->
-            <aside class="profile-sidebar">
-                <div class="profile-main-card">
-                    <div class="installer-main-info">
-                        <img src="{% static 'img/user_default_avatar.png' %}" alt="Installer" class="profile-img">
-                        <h2 class="installer-name">{{ technician.user.userprofile.fullname }}</h2>
-                    </div>
-
-                    {% if technician.is_active %}
-                        <span class="status-pill active">فعال</span>
+        <div class="installer-detail-layout">
+            <!-- Sidebar: Avatar & Quick Info -->
+            <aside class="installer-sidebar-card">
+                <div class="installer-avatar-container">
+                    {% if technician.user.userprofile.avatar_image %}
+                        <img src="{{ technician.user.userprofile.avatar_image.url }}" alt="Installer" class="installer-profile-img">
                     {% else %}
-                        <span class="status-pill">غیرفعال</span>
+                        <img src="{% static 'img/user_default_avatar.png' %}" alt="Installer" class="installer-profile-img">
                     {% endif %}
-                    <div class="quick-info">
-                        <p><strong>کد نصاب:</strong> {{ technician.installer_code }}</p>
-                        <p><strong>تعداد نصب:</strong> {{ installations_count | to_farsi_digit }}</p>
+
+                    <h2 class="installer-profile-name">{{ technician.user.userprofile.fullname }}</h2>
+                </div>
+                
+                {% if technician.is_active %}
+                    <span class="installer-status-badge">فعال</span>
+                {% else %}
+                    <span class="installer-status-badge">غیرفعال</span>
+                {% endif %}
+
+                <div class="installer-quick-stats">
+                    <div class="installer-quick-item">
+                        <span class="stat-label">کد نصاب:</span>
+                        <span class="stat-val">{{ technician.installer_code }}</span>
+                    </div>
+                    <div class="installer-quick-item">
+                        <span class="stat-label">کل نصب‌ها:</span>
+                        <span class="stat-val">{{ installations_count | to_farsi_digit }} عدد</span>
                     </div>
                 </div>
             </aside>
 
-            <!-- Main Content -->
-            <section class="profile-content">
+            <!-- Main Content Area -->
+            <section class="installer-main-content">
+                
+                <!-- Detailed Info Block -->
+                <div class="installer-info-box">
+                    <h3>اطلاعات نصاب</h3>
+                    
+                    <div class="installer-details-grid">
+                        <div class="installer-detail-field">
+                            <span class="field-label">کد ملی</span>
+                            <strong class="field-value">{{ technician.national_code | to_farsi_digit }}</strong>
+                        </div>
+                        
+                        <div class="installer-detail-field">
+                            <span class="field-label">شماره همراه</span>
+                            <strong class="field-value" dir="ltr" style="text-align: right;">
+                                {{ technician.user.phone_number.as_national | to_farsi_digit }}
+                            </strong>
+                        </div>
+                        
+                        <div class="installer-detail-field">
+                            <span class="field-label">سابقه فعالیت</span>
+                            <strong class="field-value">{{ technician.experience_years | to_farsi_digit }} سال</strong>
+                        </div>
+                        
+                        <div class="installer-detail-field">
+                            <span class="field-label">سطح مهارت فنی</span>
+                            {% if technician.skill_level == 'Senior' %}
+                                <strong class="field-value">پیشرفته</strong>
+                            {% elif technician.skill_level == 'Midlevel' %}
+                                <strong class="field-value">متوسط</strong>
+                            {% else %}
+                                <strong class="field-value">مقدمات</strong>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="installer-detail-field full-row">
+                            <span class="field-label">آدرس سکونت</span>
+                            <strong class="field-value">{{ technician.user.userprofile.address }}</strong>
+                        </div>
+                    </div>
+                </div>
 
-                <!-- Detailed Info Card -->
-                <div class="info-card">
-                    <h3>اطلاعات تکمیلی</h3>
-                    <div class="details-grid">
-                        <div class="detail-item">
-                            <span>کد ملی</span>
-                            <strong>{{ technician.national_code | to_farsi_digit }}</strong>
-                        </div>
-                        <div class="detail-item">
-                            <span>شماره همراه</span>
-                            <strong dir="ltr">{{ technician.user.phone_number.as_national | to_farsi_digit }}</strong>
-                        </div>
-                        <div class="detail-item">
-                            <span>تجربه</span>
-                            <strong>{{ technician.experience_years | to_farsi_digit }} سال</strong>
-                        </div>
-                        <div class="detail-item">
-                            <span>سطح مهارت</span>
-                            <strong>{{ technician.skill_level }}</strong>
-                        </div>
-                        <div class="detail-item full">
-                            <span>آدرس</span>
-                            <strong>{{ technician.user.userprofile.address }}</strong>
-                        </div>
+                <!-- Activity & Device Lists -->
+                <div class="installer-stats-container">
+                    <!-- Recent Activities Widget -->
+                    <div class="installer-widget-card">
+                        <h3>آخرین کارکردها</h3>
+                        <ul class="installer-activity-list">
+                            {% for installation in last_installations %}
+                                <li>
+                                    <span class="installer-activity-title">
+                                        نصب
+                                        <a href="{{ installation.device.get_absolute_url }}">{{ installation.device }}</a>
+                                    </span>
+                                    <span class="installer-activity-meta">
+                                        {{ installation.installation_date | to_jalali:"%d %B %Y" | to_farsi_digit }}
+                                    </span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- Top Devices Widget -->
+                    <div class="installer-widget-card">
+                        <h3>دستگاه‌های پرتکرار</h3>
+                        <ul class="installer-activity-list">
+                            {% for installation in most_installed %}
+                                <li>
+                                    <span class="installer-activity-title">دستگاه {{ installation.device }}</span>
+                                    <span class="installer-activity-meta">
+                                        {{ installation.device.installed_count | to_farsi_digit }} نصب
+                                    </span>
+                                </li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 </div>
 
             </section>
         </div>
 
-        <!-- Recent Installs & Stats -->
-        <section class="stats-content">
-            <div class="stats-row">
-                <!-- Recent Installs Section -->
-                <div class="card">
-                    <h3>آخرین نصب‌ها</h3>
-                    <ul class="compact-list">
-                        {% for installation in last_installations %}
-                            <li>
-                                <span class="item-title">
-                                    نصب {{ installation.device }} برای  
-                                    <span class="text-primary">
-                                        <a href="{{ installation.get_absolute_url }}">{{ installation.user.userprofile.fullname }}</a>
-                                    </span>
-                                </span>
-                                <span class="item-meta">{{ installation.installation_date | to_jalali:"%d %B %Y" | to_farsi_digit }}</span>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-
-                <!-- Frequent Devices Section -->
-                <div class="card">
-                    <h3>دستگاه‌های پرتکرار</h3>
-                    <ul class="compact-list">
-                        {% for installation in last_installations %}
-                            <li>
-                                <span class="item-title">
-                                    دستگاه 
-                                    <span class="text-primary">
-                                        <a href="{{ installation.device.get_absolute_url }}">
-                                            {{ installation.device }}
-                                        </a>
-                                    </span>
-                                </span>
-                                <span class="item-meta">{{ installation.device.installed_count | to_farsi_digit }} نصب</span>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-        </section>
     </main>
 
 {% endblock content %}

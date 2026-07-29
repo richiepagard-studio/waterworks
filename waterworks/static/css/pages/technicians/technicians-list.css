@@ -1,106 +1,139 @@
-/* =====================================
-   Installers Grid
-===================================== */
-.installers-grid {
+/* ==========================================================================
+   INSTALLER ARCHIVE / GRID LIST (Isolated Style Rules)
+   ========================================================================== */
+
+.installers-archive-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--space-4);
-    margin-top: var(--space-8);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-5);
+    margin-top: var(--space-6);
 }
 
-/* =====================================
-   Installer Card
-===================================== */
-.installer-card {
-    padding: var(--space-5);
+.installer-grid-card {
+    padding: 20px;
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-xl);
     background: var(--color-surface);
-    transition: all 0.2s ease;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
 }
 
-.installer-card:hover {
+.installer-grid-card:hover {
     border-color: var(--color-primary);
     transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
 }
 
-.installer-header {
+.installer-grid-header {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: var(--space-4);
+    gap: 14px;
+    margin-bottom: 18px;
 }
 
-.avatar {
-    width: 45px;
-    height: 45px;
-    background: #f0f0f0;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    color: #666;
-}
-
-.installer-avatar {
-    width: 50px;
-    height: 50px;
+.installer-grid-avatar {
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid #fff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border: 2px solid var(--color-border);
 }
 
-.installer-header {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: var(--space-4);
+.installer-grid-meta h3 {
+    font-size: 0.95rem;
+    font-weight: 800;
+    margin: 0 0 4px 0;
+    color: var(--color-text);
 }
 
-.name { 
-    font-size: 1.05rem; 
-    margin: 0; 
+.installer-grid-code {
+    font-size: 0.72rem;
+    color: var(--color-primary);
     font-weight: 700;
 }
 
-.name { font-size: 1rem; margin: 0; }
-.id-code { font-size: 0.8rem; color: var(--color-primary); font-weight: 600; }
-
-/* Info Section */
-.installer-info {
+/* Info Properties inside Card */
+.installer-grid-properties {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-bottom: var(--space-2);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 18px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(127, 127, 127, 0.08);
 }
 
-.info-item .label { display: block; font-size: 0.75rem; color: var(--color-text-muted); }
-.info-item .value { font-size: 0.85rem; font-weight: 500; }
-
-/* Skills Badge */
-.badge-skill {
-    padding: 0 4px 0 4px;
-    border-radius: 4px;
-    font-size: 0.75rem;
+.installer-property-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
-.advanced { background: #e8f5e9; color: #2e7d32; }
-body.dark .advanced {color: var(--color-surface);}
 
-/* Button */
-.view-profile-btn {
-    display: block;
-    text-align: center;
-    padding: 8px;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    font-size: 0.85rem;
-    text-decoration: none;
+.installer-property-item .prop-label {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+}
+
+.installer-property-item .prop-value {
+    font-size: 0.82rem;
+    font-weight: 600;
     color: var(--color-text);
 }
-.page-title {margin-bottom: var(--space-4);}
 
-/* Responsive */
-@media (max-width: 1000px) { .installers-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 600px) { .installers-grid { grid-template-columns: 1fr; } }
+/* Specific Skill Pill */
+.installer-skill-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.installer-skill-badge.skill-advanced {
+    background: rgba(34, 197, 94, 0.1);
+    color: #16a34a;
+}
+
+body.dark .installer-skill-badge.skill-advanced {
+    background: rgba(34, 197, 94, 0.15);
+    color: #4ade80;
+}
+
+/* Card Button Link */
+.installer-grid-btn {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    background: var(--color-surface-soft);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--color-text);
+    transition: background 0.2s;
+}
+
+.installer-grid-btn:hover {
+    background: var(--color-border);
+    color: var(--color-text);
+}
+
+/* --- Responsive Layout --- */
+@media (max-width: 1200px) {
+    .installers-archive-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
+    .installers-archive-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .installers-archive-grid {
+        grid-template-columns: 1fr;
+    }
+}
