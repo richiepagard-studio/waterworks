@@ -13,14 +13,18 @@
                 <p>اطالاعات کاربری خود را ویرایش کنید با استفاده از فرم زیر</p>
             </header>
 
-            <form class="profile-edit-form" method="post">
+            <form class="profile-edit-form" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <input type="hidden" name="next" value="{{ next_url|default:'' }}">
                 
                 <!-- Avatar Upload Section -->
                 <div class="profile-edit-avatar-section">
                     <div class="avatar-preview">
-                        <img src="{% static 'img/user_default_avatar.png' %}" alt="Profile">
+                        {% if userprofile.avatar_image %}
+                            <img src="{{ userprofile.avatar_image.url }}" alt="Profile">
+                        {% else %}
+                            <img src="{% static 'img/user_default_avatar.png' %}" alt="Profile">
+                        {% endif %}
                     </div>
                     <!-- <button type="button" class="btn-secondary">تغییر تصویر</button> -->
                 </div>

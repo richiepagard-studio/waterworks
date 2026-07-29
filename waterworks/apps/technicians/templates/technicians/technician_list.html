@@ -10,45 +10,53 @@
 
     <!-- Header -->
     <div class="page-header">
-        <h2 class="page-title">لیست نصاب‌ها</h2>
+        <h2 class="page-title mb-2">لیست نصاب‌ها</h2>
         <a href="{% url 'technicians:technician-create-user' %}" class="btn-sub">+ نصاب جدید</a>
     </div>
 
+    <!-- Installers Grid Area -->
+    <section class="installers-archive-grid">
 
-    <!-- Installers Grid -->
-    <section class="installers-grid">
-
-        <!-- Installer Card -->
         {% for technician in object_list %}
+            <div class="installer-grid-card">
+                <div class="installer-grid-header">
+                    {% if technician.user.userprofile.avatar_image %}
+                        <img src="{{ technician.user.userprofile.avatar_image.url }}" alt="{{ technician.user.userprofile.fullname }}" class="installer-grid-avatar">
+                    {% else %}
+                        <img src="{% static 'img/user_default_avatar.png' %}" alt="{{ technician.user.userprofile.fullname }}" class="installer-grid-avatar">
+                    {% endif %}
 
-            <div class="installer-card">
-                <div class="installer-header">
-                    <img src="{% static 'img/user_default_avatar.png' %}" alt="{{ technician.user.username }}" class="installer-avatar">
-
-                    <div>
-                        <h3 class="name">{{ technician.user.userprofile.fullname }}</h3>
-                        <span class="id-code">کد: {{ technician.installer_code }}</span>
+                    <div class="installer-grid-meta">
+                        <h3>{{ technician.user.userprofile.fullname }}</h3>
+                        <span class="installer-grid-code">کد: {{ technician.installer_code }}</span>
                     </div>
                 </div>
 
-                <div class="installer-info">
-                    <div class="info-item">
-                        <span class="label">کد ملی</span>
-                        <span class="value">{{ technician.national_code | to_farsi_digit }}</span>
+                <div class="installer-grid-properties">
+                    <div class="installer-property-item">
+                        <span class="prop-label">کد ملی</span>
+                        <span class="prop-value">{{ technician.national_code | to_farsi_digit }}</span>
                     </div>
-                    <div class="info-item">
-                        <span class="label">تجربه</span>
-                        <span class="value">{{ technician.experience_years | to_farsi_digit }} سال</span>
+                    <div class="installer-property-item">
+                        <span class="prop-label">تجربه</span>
+                        <span class="prop-value">{{ technician.experience_years | to_farsi_digit }} سال</span>
                     </div>
-                    <div class="info-item">
-                        <span class="label">سطح مهارت</span>
-                        <span class="value badge-skill advanced">{{ technician.skill_level }}</span>
+                    <div class="installer-property-item">
+                        <span class="prop-label">سطح مهارت</span>
+                        <span class="prop-value">
+                            {% if technician.skill_level == 'Senior' %}
+                                <span class="installer-skill-badge skill-advanced">پیشرفته</span>
+                            {% elif technician.skill_level == 'Midlevel' %}
+                                <span class="installer-skill-badge skill-advanced">متوسط</span>
+                            {% else %}
+                                <span class="installer-skill-badge skill-advanced">مقدماتی</span>
+                            {% endif %}
+                        </span>
                     </div>
                 </div>
 
-                <a href="{{ technician.get_absolute_url }}" class="view-profile-btn">مشاهده پروفایل</a>
+                <a href="{{ technician.get_absolute_url }}" class="installer-grid-btn">مشاهده پروفایل</a>
             </div>
-        
         {% endfor %}
 
     </section>

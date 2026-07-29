@@ -52,11 +52,13 @@ class TechnicianRetrieveView(LoginRequiredMixin, View):
 		elif role == 'Admin' or user.is_superuser:
 			technician = get_object_or_404(Technician, pk=technician_pk)
 			last_installations = technician.installations.all()
+			most_installed = technician.installations.all().order_by('device__installed_count')
 			installations_count = len(last_installations)
 
 		context = {
 			"technician": technician,
 			"last_installations": last_installations[:5],
+			"most_installed": most_installed[:5],
 			"installations_count": installations_count
 		}
 		return render(
