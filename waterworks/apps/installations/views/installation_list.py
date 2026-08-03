@@ -70,5 +70,6 @@ class InstallationListView(LoginRequiredMixin, ListView):
         """
         context = super().get_context_data(**kwargs)
         context["filters"] = self.filterset
+        context['installations_count'] = self.get_queryset().count()
 
         return context
