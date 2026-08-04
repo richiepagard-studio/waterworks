@@ -8,9 +8,11 @@ from .models import Installation
 class InstallationAdmin(admin.ModelAdmin):
     list_display = (
         "user__phone_number",
+        "user__userprofile__last_name",
+        "user__userprofile__first_name",
         "vendor__shop_name",
         "technician",
-        "is_active"
+        "is_active",
     )
     list_filter = ("is_active", "created_at", "updated_at")
     search_fields = (

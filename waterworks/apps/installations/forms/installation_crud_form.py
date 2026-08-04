@@ -1,10 +1,9 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
+from django.utils.timezone import localdate
 
 from jalali_date.fields import JalaliDateField
 from jalali_date.widgets import AdminJalaliDateWidget
-from django_jalali.forms.widgets import jDateInput
-from django_jalali.forms import jDateField
 
 from apps.installations.models import Installation
 
@@ -15,47 +14,50 @@ class InstallationCreateForm(forms.ModelForm):
     Only the admin-user and technician-user be able to
     create a new Installation.
     """
+    installation_date = JalaliDateField(
+        label=_("تاریخ نصب"),
+        required=False,
+        widget=AdminJalaliDateWidget(attrs={
+            "class": "form-control jalali_date-date",
+            "autocomplete": "off",
+        })
+    )
+
     class Meta:
         model = Installation
         fields = (
-            "vendor", "technician", "device",
-            "description", "installation_date"
+            'vendor', 'technician', 'device',
+            'description', 'installation_date'
         )
         labels = {
             'vendor': _('فروشنده'),
             'technician': _('نصاب'),
             'device': _('دستگاه'),
             'description': _('توضیحات'),
-            'installation_date': _('تاریخ نصب')
         }
         widgets = {
-            "installation_date": forms.DateInput(
-                attrs={
-                    "type": "date",
-                    "class": "form-control mb-2"
-                }
-            ),
-            "next_inspection_date": forms.DateInput(
-                attrs={
-                    "type": "date",
-                    "class": "form-control mb-2"
-                }
-            ),
+            'vendor': forms.Select(attrs={'class': 'form-control mb-2'}),
+            'technician': forms.Select(attrs={'class': 'form-control mb-2'}),
+            'device': forms.Select(attrs={'class': 'form-control mb-2'}),
+            'description': forms.Textarea(attrs={'class': 'form-control mb-2'}),
         }
 
-    def __init__(self, *args, **kwargs):
+    def save(self, commit=True):
         """
-        Initialized the form class.
-
-        Add some same widgets such as 'CSS class' to the all fields,
-        or any other same properties.
+        Override the save workflow for installation date,
+        saves installation date to the current date if nothing sent
+        by the client.
         """
-        super().__init__(*args, **kwargs)
+        installation_date = self.cleaned_data.get('installation_date')
+        instance = super().save(commit=False)
 
-        for field in self.fields.values():
-            field.widget.attrs.update({
-                "class": "form-control mb-2"
-            })
+        if not installation_date:
+            instance.installation_date = localdate()
+
+        if commit:
+            instance.save()
+
+        return instance
 
 
 class InstallationUpdateForm(forms.ModelForm):
