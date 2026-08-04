@@ -114,7 +114,8 @@
                                     نصاب: {{ installation.technician.user.userprofile.fullname }}
                                 </small>
                             </div>
-                            {% if installation.last %}
+
+                            {% if forloop.first %}
                                 <span class="activity-badge">جدید</span>
                             {% else %}
                                 <span class="activity-badge muted">قبلی</span>
