@@ -32,11 +32,14 @@
 .toast-message { font-size: 1rem; font-weight: 500; }
 
 .toast-close {
+    position: relative;
+    z-index: 10000;
     background: transparent;
     border: none;
     color: currentColor;
     font-size: 1.5rem;
-    cursor: pointer;
+    cursor: pointer !important;
+    pointer-events: auto !important;
     margin-left: 1rem;
     opacity: 0.7;
 }

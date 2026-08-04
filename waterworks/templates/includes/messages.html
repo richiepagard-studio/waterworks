@@ -1,10 +1,12 @@
 {% if messages %}
     <div class="toast-container">
         {% for msg in messages %}
-        <div class="toast-item toast-{{ msg.tags }}">
-            <span class="toast-message">{{ msg }}</span>
-            <button class="toast-close" onclick="this.parentElement.remove()">×</button>
-        </div>
+            <div class="toast-item toast-{{ msg.tags }}">
+                <span class="toast-message">{{ msg }}</span>
+                <button type="button" class="toast-close" onclick="this.parentElement.remove()">
+                    ×
+                </button>
+            </div>
         {% endfor %}
     </div>
 {% endif %}
