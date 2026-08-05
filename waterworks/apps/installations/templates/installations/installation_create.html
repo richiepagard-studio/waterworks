@@ -5,6 +5,8 @@
 
 {% block content %}
 
+    {{ form.media }}
+
     <main class="form-container add-installation-step3-page">
         <div class="form-card">
             <h2 class="form-title">اطلاعات نصب</h2>
@@ -40,8 +42,8 @@
 
                     <!-- Installation Date -->
                     <div class="form-group">
-                        <label for="installationDate">{{ form.installation_date.label }}</label>
-                        <input type="date" id="installationDate" name="installation_date">
+                        <label>{{ form.installation_date.label }}</label>
+                        {{ form.installation_date }}
                     </div>
 
                     <!-- Description -->
