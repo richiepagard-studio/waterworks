@@ -15,4 +15,6 @@ class JalaliLocaleMiddleware:
         """
         jdatetime.set_locale('fa_IR')
 
-        return self.get_response(request)
+        response = self.get_response(request)
+
+        return response
