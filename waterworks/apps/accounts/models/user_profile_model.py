@@ -34,12 +34,14 @@ class UserProfile(BaseModel):
     )
     first_name = models.CharField(
         max_length=30,
+        db_index=True,
         null=True,
         blank=True,
         verbose_name=_('First name')
     )
     last_name = models.CharField(
         max_length=30,
+        db_index=True,
         null=True,
         blank=True,
         verbose_name=_('Last name')

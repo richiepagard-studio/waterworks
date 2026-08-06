@@ -24,6 +24,7 @@ class BaseModel(models.Model):
         verbose_name=_("Last Updated Date")
     )
     is_active = models.BooleanField(
+        db_index=True,
         default=True,
         verbose_name=_("Activation Status")
     )
