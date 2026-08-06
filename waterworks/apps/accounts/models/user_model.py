@@ -31,12 +31,14 @@ class User(AbstractBaseUser, PermissionsMixin):
 	phone_number = PhoneNumberField(
 		unique=True,
 		region="IR",
+		db_index=True,
 		verbose_name=_("Phone Number"),
 		help_text=_("Your original phone number to identify you and send messages.")
 	)
 	username = models.CharField(
 		max_length=20,
 		unique=True,
+		db_index=True,
 		null=True,
 		blank=True,
 		verbose_name=_("Username"),
