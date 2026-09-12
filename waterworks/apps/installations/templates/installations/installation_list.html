@@ -31,7 +31,9 @@
 
         <form class="filter-form" method="get" action="{% url 'installations:installations-list' %}">
 
-            <input type="text" placeholder="نام مشتری" name="last_name" value="{{ request.GET.last_name }}">
+            <input type="text" placeholder="نام مشتری" name="first_name" value="{{ request.GET.first_name }}">
+            <input type="text" placeholder="نام خانوادگی مشتری" name="last_name" value="{{ request.GET.last_name }}">
+            <input type="text" placeholder="شماره تماس" name="phone_number" value="{{ request.GET.phone_number }}">
 
             <select name="device">
                 <option>دستگاه</option>
