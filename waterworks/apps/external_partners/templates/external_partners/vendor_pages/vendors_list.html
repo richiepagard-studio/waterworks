@@ -30,8 +30,11 @@
 
             <form class="seller-filter-form" method="get" action="{% url 'external_partners:vendors-list' %}">
                 <input type="text" placeholder="نام فروشگاه" name="shop_name" value="{{ request.GET.shop_name }}">
-                <input type="text" placeholder="نام مدیر" name="last_name" value="{{ request.GET.last_name }}">
-                <input type="text" placeholder="شماره تماس" name="contact_phone" value="{{ request.GET.contact_phone }}">
+                <input type="text" placeholder="شماره‌تماس کسب" name="contact_phone" value="{{ request.GET.contact_phone }}">
+                <input type="text" placeholder="نام مدیر" name="first_name" value="{{ request.GET.first_name }}">
+                <input type="text" placeholder="نام‌خانوادگی مدیر" name="last_name" value="{{ request.GET.last_name }}">
+                <input type="text" placeholder="شماره‌تماس" name="phone_number" value="{{ request.GET.phone_number }}">
+
                 <button type="submit" class="seller-filter-btn">جستجو</button>
             </form>
         </section>
@@ -57,7 +60,7 @@
                         <div>
                             <span class="seller-meta-label">تلفن کسب</span>
                             <span class="seller-meta-value" dir="ltr">
-                                {{ vendor.contact_phone.as_national | to_farsi_digit }}
+                                {{ vendor.contact_phone | to_farsi_digit }}
                             </span>
                         </div>
                         <div>
