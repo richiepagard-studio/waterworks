@@ -1,13 +1,25 @@
 from typing import Any
 from django.forms import Select, TextInput
+from django.utils.translation import gettext_lazy as _
 
 import django_filters
 from phonenumber_field.phonenumber import PhoneNumber
+from jalali_date.fields import JalaliDateField
+from jalali_date.widgets import AdminJalaliDateWidget
 
 from apps.devices.models import Device
 from apps.technicians.models import Technician
 from apps.external_partners.models import Vendor
 from apps.installations.models import Installation
+
+
+class JalaliDateFilter(django_filters.DateFilter):
+    """
+    DateFilter that accepts Jalali dates and converts them
+    to Gregorian for filtering, reusing the project's Jalali
+    date field/widget.
+    """
+    field_class = JalaliDateField
 
 
 class InstallationFilter(django_filters.FilterSet):
@@ -42,6 +54,25 @@ class InstallationFilter(django_filters.FilterSet):
         widget=TextInput(attrs={"class": "form-control"})
     )
 
+    start_date = JalaliDateFilter(
+        field_name="installation_date",
+        lookup_expr="gte",
+        widget=AdminJalaliDateWidget(attrs={
+            "class": "form-control jalali_date-date",
+            "placeholder": _("از تاریخ"),
+            "autocomplete": "off",
+        })
+    )
+    end_date = JalaliDateFilter(
+        field_name="installation_date",
+        lookup_expr="lte",
+        widget=AdminJalaliDateWidget(attrs={
+            "class": "form-control jalali_date-date",
+            "placeholder": _("تا تاریخ"),
+            "autocomplete": "off",
+        })
+    )
+
     class Meta:
         model = Installation
         fields = (
@@ -50,7 +81,10 @@ class InstallationFilter(django_filters.FilterSet):
             "vendor",
             "first_name",
             "last_name",
-            "phone_number"
+            "phone_number",
+            # Dates range
+            "start_date",
+            "end_date"
         )
 
     def __init__(self, *args, **kwargs):
