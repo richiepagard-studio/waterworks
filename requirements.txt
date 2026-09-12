@@ -1,4 +1,5 @@
 asgiref==3.11.0
+colorama==0.4.6
 Django==5.2.9
 django-filter==25.2
 django-jalali==7.4.0
@@ -13,5 +14,6 @@ pillow==12.0.0
 psycopg2-binary==2.9.11
 python-dateutil==2.9.0.post0
 python-dotenv==1.2.2
+setuptools==84.0.0
 six==1.17.0
 sqlparse==0.5.4
