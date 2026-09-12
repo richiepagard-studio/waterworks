@@ -45,11 +45,12 @@ class Vendor(BaseModel):
         null=True,
         verbose_name=_("Contact Email")
     )
-    contact_phone = PhoneNumberField(
-        region="IR",
+    contact_phone = models.CharField(
+        max_length=11,
         blank=True,
         null=True,
-        verbose_name=_("Contact Phone Number")
+        verbose_name=_("Contact Phone Number"),
+        help_text=_("02126542212 or +2126542212")
     )
     banner = models.ImageField(
 		upload_to=banner_path,
