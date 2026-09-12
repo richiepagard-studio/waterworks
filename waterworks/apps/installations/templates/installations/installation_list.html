@@ -9,6 +9,8 @@
 
 {% block content %}
 
+    {{ filters.form.media }}
+
     <!-- Page Header & Action Button -->
     <div class="installation-page-header">
 
@@ -86,9 +88,9 @@
 
             <div class="date-range">
 
-                <input type="date" name="start_date" value="{{ request.GET.start_date }}">
+                {{ filters.form.start_date }}
                 <span>تا</span>
-                <input type="date" name="end_date" value="{{ request.GET.end_date }}">
+                {{ filters.form.end_date }}
 
             </div>
 
