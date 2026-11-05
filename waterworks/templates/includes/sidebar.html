@@ -19,7 +19,16 @@
             </div>
         {% endif %}
 
-        {% if request.user.role == 'Admin' or request.user.is_superuser %}
+		{% if request.user.role == "Customer" %}
+			<div class="menu-link">
+				<a href="{% url 'installations:installation-retrieve' request.user.installation.pk %}">
+					جزئیات نصب
+				</a>
+			</div>
+		{% endif %}
+		<hr>
+
+		{% if request.user.role == 'Admin' or request.user.is_superuser %}
             <div class="menu-item has-submenu">
                 <div class="menu-link">
                     <span class="icon">🧑‍🔧</span>
