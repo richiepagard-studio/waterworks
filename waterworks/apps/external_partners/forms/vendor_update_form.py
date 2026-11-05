@@ -14,12 +14,19 @@ class VendorUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Vendor
-        fields = ("shop_name", "contact_email", "contact_phone", "is_active")
+        fields = (
+            "shop_name",
+            "contact_email",
+            "contact_phone",
+            "is_active",
+            "banner"
+        )
 
         labels = {
             'shop_name': _('نام فروشگاه'),
             'contact_email': _('پست‌الکترونیک'),
-            'contact_phone': _('شماره تماس کسب')
+            'contact_phone': _('شماره تماس کسب'),
+            "banner": _("تصویر فروشگاه")
         }
 
         widgets = {

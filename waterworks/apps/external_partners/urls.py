@@ -33,7 +33,7 @@ VENDORS_CRUD_URLS = [
     ),
     # Updating
     path(
-        "<int:instance_pk>/update/",
+        "<int:vendor_pk>/update/",
         VendorUpdateView.as_view(),
         name="vendor-update"
     ),
