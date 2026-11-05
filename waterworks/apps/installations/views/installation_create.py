@@ -22,7 +22,7 @@ class InstallationCreateUserView(BaseUserSoftRegisterView):
     """
     success_url = reverse_lazy("installations:installation-update-user-profile")
     template_name = "installations/installation_create_user.html"
-    user_role = "Installation"
+    user_role = "Customer"
     authorized_roles = ("Admin", "Technician")
 
 
@@ -46,5 +46,5 @@ class InstallationCreateView(BaseRoleProfileCreateView):
     form_class = InstallationCreateForm
     success_url = reverse_lazy("installations:installations-list")
     template_name = "installations/installation_create.html"
-    user_role = "Installation"
+    user_role = "Customer"
     authorized_roles = ("Admin", "Technician")

@@ -14,11 +14,16 @@
 
       <div id="profile-dropdown" class="profile-dropdown">
         {% if request.user.is_authenticated %}
-        <a href="{% url 'accounts:user-dashboard' %}">پروفایل</a>
-        <a href="{% url 'accounts:user-logout' %}">خروج</a>
+			<a href="{% url 'accounts:user-dashboard' %}">پروفایل</a>
+			{% if request.user.role == "Customer" %}
+				<a href="{% url 'installations:installation-retrieve' request.user.installation.pk %}">
+					جزئیات نصب
+				</a>
+			{% endif %}
+			<a href="{% url 'accounts:user-logout' %}">خروج</a>
         {% else %}
-        <a href="{% url 'accounts:user-login' %}">ورود</a>
-        <a href="{% url 'accounts:user-register' %}">ثبت‌نام</a>
+			<a href="{% url 'accounts:user-login' %}">ورود</a>
+			<a href="{% url 'accounts:user-register' %}">ثبت‌نام</a>
         {% endif %}
       </div>
     </div>
