@@ -21,6 +21,7 @@
             <div class="actions">
                 <a href="{% url 'external_partners:vendor-update' vendor.pk %}">
                     <button class="btn-sub btn-sm">ویرایش اطلاعات</button>
+					<button class="tab"><a href="{% url 'accounts:user-profile-update' vendor.user.id %}?next={{ request.get_full_path|urlencode }}">ویرایش</a></button>
                 </a>
             </div>
         </header>
