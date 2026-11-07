@@ -20,7 +20,7 @@ class Device(BaseModel):
 	Represents to the devices that Linux Project provide.
 
 	Attributes:
-		name (str): The original name of the device.		
+		name (str): The original name of the device.
 		model (str): The model of the device.
 		installed_count (int, unsigned): Installation count of the device.
 		guarantee (int): The months device guaranteed.

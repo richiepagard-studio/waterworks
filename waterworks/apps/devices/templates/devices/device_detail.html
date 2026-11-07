@@ -42,17 +42,29 @@
 
                     <div class="meta-item">
                         <span>گارانتی</span>
-                        <strong>{{ object.guarantee | to_farsi_digit }} ماهه</strong>
+						{% if object.guarantee %}
+							<strong>{{ object.guarantee | to_farsi_digit }} ماهه</strong>
+						{% else %}
+							<strong>گارانتی مشخص نشده</strong>
+						{% endif %}
                     </div>
 
                     <div class="meta-item">
                         <span>تعداد نصب</span>
-                        <strong>{{ object.installed_count | to_farsi_digit }} نصب</strong>
+						{% if object.installed_count >= 1 %}
+							<strong>{{ object.installed_count | to_farsi_digit }} نصب</strong>
+						{% elif object.installed_count == 0 %}
+							<strong>فعلا نصبی انجام نشده</strong>
+						{% endif %}
                     </div>
 
                     <div class="meta-item">
                         <span>موجودی</span>
-                        <strong>{{ object.stock_quantity | to_farsi_digit }} دستگاه</strong>
+						{% if object.stock_quantity and object.stock_quantity >= 1 %}
+							<strong>{{ object.stock_quantity | to_farsi_digit }} دستگاه</strong>
+						{% else %}
+							<strong>اتمام موجودی</strong>
+						{% endif %}
                     </div>
 
                     <div class="meta-item">
@@ -76,7 +88,11 @@
             <h3>توضیحات دستگاه</h3>
 
             <p>
-                {{ object.description }}
+				{% if not object.description %}
+					فعلا توضیحاتی درج نشده
+				{% else %}
+					{{ object.description }}
+				{% endif %}
             </p>
 
         </section>

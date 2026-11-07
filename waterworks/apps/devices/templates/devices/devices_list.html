@@ -34,7 +34,11 @@
                     <p class="device-model">مدل: {{ device.model }}</p>
                     <div class="device-warranty">
                         <span>گارانتی:</span>
-                        <span class="warranty-badge">{{ device.guarantee | to_farsi_digit }} ماهه</span>
+						{% if device.guarantee %}
+							<span class="warranty-badge">{{ device.guarantee | to_farsi_digit }} ماهه</span>
+						{% else %}
+							<span class="warranty-badge">گارانتی مشخص نشده</span>
+						{% endif %}
                     </div>
                     <button class="btn-main btn-sm">
                         <a href="{{ device.get_absolute_url }}">مشاهده جزئیات</a>
