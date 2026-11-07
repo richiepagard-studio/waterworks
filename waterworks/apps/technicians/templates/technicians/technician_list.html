@@ -39,8 +39,13 @@
                     </div>
                     <div class="installer-property-item">
                         <span class="prop-label">تجربه</span>
-                        <span class="prop-value">{{ technician.experience_years | to_farsi_digit }} سال</span>
-                    </div>
+
+						{% if technician.experience_years %}
+							<span class="prop-value">{{ technician.experience_years | to_farsi_digit }} سال</span>
+						{% else %}
+							<span class="prop-value">نامشخص</span>
+						{% endif %}
+					</div>
                     <div class="installer-property-item">
                         <span class="prop-label">سطح مهارت</span>
                         <span class="prop-value">
