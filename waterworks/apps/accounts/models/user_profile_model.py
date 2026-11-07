@@ -84,3 +84,12 @@ class UserProfile(BaseModel):
             fullname = None
 
         return fullname
+
+    def save(self, *args, **kwargs):
+        """
+        Overriding the saved instance values.
+        """
+        if not self.address:
+            self.address = _("مشخص نشده")
+
+        super().save(*args, **kwargs)

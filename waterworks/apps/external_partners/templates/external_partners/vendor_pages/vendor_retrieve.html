@@ -35,7 +35,12 @@
                             <img src="{{ vendor.banner.url }}" alt="Shop" class="seller-avatar">
                         {% endif %}
                         <div class="seller-headline">
-                            <h2>{{ vendor.shop_name }}</h2>
+							{% if vendor.shop_name %}
+								<h2>{{ vendor.shop_name }}</h2>
+							{% else %}
+								<h2>تعریف نشده</h2>
+							{% endif %}
+
                             {% if vendor.is_active %}
                                 <span class="status-pill active">فعال</span>
                             {% else %}
@@ -52,14 +57,24 @@
                         <div class="info-grid">
                             <div class="info-item">
                                 <span class="label">مدیر</span>
-                                <span class="value">{{ vendor.user.userprofile.fullname }}</span>
+								{% if vendor.user.userprofile.fullname != "N/A N/A" %}
+									<span class="value">{{ vendor.user.userprofile.fullname }}</span>
+								{% else %}
+									<span class="value" dir="ltr" style="text-align: right;">
+										{{ vendor.user.phone_number.as_national | to_farsi_digit }}
+									</span>
+								{% endif %}
                             </div>
 
                             <div class="info-item">
                                 <span class="label">تلفن کسب</span>
-                                <span class="value" dir="ltr" style="text-align: right;">
-                                    {{ vendor.contact_phone.as_national | to_farsi_digit }}
-                                </span>
+								{% if vendor.contact_phone %}
+									<span class="value" dir="ltr" style="text-align: right;">
+										{{ vendor.contact_phone.as_national | to_farsi_digit }}
+									</span>
+								{% else %}
+									<span class="value" dir="ltr" style="text-align: right;">تعریف نشده</span>
+								{% endif %}
                             </div>
 
                             <div class="info-item">

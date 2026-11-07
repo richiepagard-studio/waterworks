@@ -59,9 +59,13 @@
                     <div class="seller-meta">
                         <div>
                             <span class="seller-meta-label">تلفن کسب</span>
-                            <span class="seller-meta-value" dir="ltr">
-                                {{ vendor.contact_phone | to_farsi_digit }}
-                            </span>
+							{% if vendor.contact_phone %}
+								<span class="seller-meta-value" dir="ltr">
+									{{ vendor.contact_phone | to_farsi_digit }}
+								</span>
+							{% else %}
+								<span class="seller-meta-value" dir="ltr">تعریف نشده</span>
+							{% endif %}
                         </div>
                         <div>
                             <span class="seller-meta-label">موبایل</span>
