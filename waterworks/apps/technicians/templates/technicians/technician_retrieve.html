@@ -78,7 +78,12 @@
                         
                         <div class="installer-detail-field">
                             <span class="field-label">سابقه فعالیت</span>
-                            <strong class="field-value">{{ technician.experience_years | to_farsi_digit }} سال</strong>
+
+							{% if technician.experience_years %}
+								<strong class="field-value">{{ technician.experience_years | to_farsi_digit }} سال</strong>
+							{% else %}
+								<strong class="field-value">نامشخص</strong>
+							{% endif %}
                         </div>
                         
                         <div class="installer-detail-field">
