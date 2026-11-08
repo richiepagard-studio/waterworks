@@ -1,62 +1,42 @@
 /* =====================================================
-    FONTS — Shabnam
+    FONTS — Vazir
 ===================================================== */
 
 @font-face {
-    font-family: "Shabnam";
-    src: url("https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/Shabnam.eot");
-    src: url("https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/Shabnam.eot?#iefix") format("embedded-opentype"),
-         url("https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/Shabnam.woff2") format("woff2"),
-         url("https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/Shabnam.woff") format("woff"),
-         url("https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/Shabnam.ttf") format("truetype");
+    font-family: "Vazir";
+    src: url("../../fonts/Vazirmatn-Regular.woff2");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "Shabnam";
-    src: url("https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/Shabnam-Bold.eot");
-    src: url("https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/Shabnam-Bold.eot?#iefix") format("embedded-opentype"),
-         url("https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/Shabnam-Bold.woff2") format("woff2"),
-         url("https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/Shabnam-Bold.woff") format("woff"),
-         url("https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/Shabnam-Bold.ttf") format("truetype");
+    font-family: "Vazir";
+	src: url("../../fonts/Vazirmatn-Black.woff2") format("woff2");
     font-weight: 700;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "Shabnam";
-    src: url("https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/Shabnam-Thin.eot");
-    src: url("https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/Shabnam-Thin.eot?#iefix") format("embedded-opentype"),
-         url("https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/Shabnam-Thin.woff2") format("woff2"),
-         url("https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/Shabnam-Thin.woff") format("woff"),
-         url("https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/Shabnam-Thin.ttf") format("truetype");
+    font-family: "Vazir";
+	src: url("../../fonts/Vazirmatn-ExtraLight.woff2") format("woff2");
     font-weight: 100;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "Shabnam";
-    src: url("https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/Shabnam-Light.eot");
-    src: url("https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/Shabnam-Light.eot?#iefix") format("embedded-opentype"),
-         url("https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/Shabnam-Light.woff2") format("woff2"),
-         url("https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/Shabnam-Light.woff") format("woff"),
-         url("https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/Shabnam-Light.ttf") format("truetype");
+    font-family: "Vazir";
+    src: url("../../fonts/Vazirmatn-Light.woff2") format("woff2");
     font-weight: 300;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "Shabnam";
-    src: url("https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/Shabnam-Medium.eot");
-    src: url("https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/Shabnam-Medium.eot?#iefix") format("embedded-opentype"),
-         url("https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/Shabnam-Medium.woff2") format("woff2"),
-         url("https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/Shabnam-Medium.woff") format("woff"),
-         url("https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/Shabnam-Medium.ttf") format("truetype");
+    font-family: "Vazir";
+    src: url("../../fonts/Vazirmatn-Medium.woff") format("woff2");
     font-weight: 500;
     font-style: normal;
     font-display: swap;
