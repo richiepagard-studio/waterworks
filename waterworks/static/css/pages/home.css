@@ -24,7 +24,7 @@
             var(--hero-overlay-start) 0%,
             var(--hero-overlay-end) 60%
         ),
-        url("../../img/blog-banners/malek_1.jpg");
+        url("../../img/waterworks-banner.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -39,6 +39,15 @@
 
 .hero-content {
     max-width: 640px;
+	padding: var(--space-6) var(--space-7);
+    border-radius: var(--radius-xl);
+
+    /* the glass effect */
+    background: rgba(6, 35, 63, 0.35);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+    backdrop-filter: blur(12px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
 }
 
 .hero-title {
@@ -47,6 +56,7 @@
     font-size: clamp(1.8rem, 3vw, 2.6rem);
     font-weight: var(--font-weight-extra-bold);
     line-height: 1.4;
+	text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .hero-subtitle {
