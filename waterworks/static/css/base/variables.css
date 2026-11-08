@@ -45,7 +45,7 @@
     /* ------------------------------
         Typography
     ------------------------------ */
-    --font-family-base: "Shabnam", "Tahoma", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-family-base: "Vazir", "Tahoma", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-family-sans: var(--font-family-base);
 
     --font-size-xs: 0.75rem;
