@@ -139,7 +139,11 @@
                         </span>
 
                         <span class="meta-value">
-                            {{ installation.device }}
+							{% if installation.device %}
+								{{ installation.device }}
+							{% else %}
+								مشخص نشده
+							{% endif %}
                         </span>
 
                     </div>

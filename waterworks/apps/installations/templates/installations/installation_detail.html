@@ -69,9 +69,13 @@
                 <div class="info-grid-simple">
                     <div>
                         <span>دستگاه</span>
-                        <a href="{{ object.device.get_absolute_url }}" class="info-link">
-                            {{ object.device }}
-                        </a>
+						{% if object.device %}
+							<a href="{{ object.device.get_absolute_url }}" class="info-link">
+								{{ object.device }}
+							</a>
+						{% else %}
+							<strong>مشخص نشده</strong>
+						{% endif %}
                     </div>
                     <div>
                         <span>فروشنده</span>
