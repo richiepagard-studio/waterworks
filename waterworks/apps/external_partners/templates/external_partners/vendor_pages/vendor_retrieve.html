@@ -125,7 +125,15 @@
                     {% for installation in vendor_installations %}
                         <div class="activity-item">
                             <div class="activity-main">
-                                <span class="activity-title">{{ installation.device }}</span>
+                                <span class="activity-title">
+									{% if installation.device %}
+										{{ installation.device }}
+									{% else %}
+										<a href="{{ installation.get_absolute_url }}">
+											{{ installation.user.userprofile.fullname }}
+										</a>
+									{% endif %}
+								</span>
                                 <small>
                                     نصاب: {{ installation.technician.user.userprofile.fullname }}
                                 </small>
